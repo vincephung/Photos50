@@ -79,7 +79,6 @@
                <children>
                   <Button mnemonicParsing="false" text="Add Photo" />
                   <Button mnemonicParsing="false" text="Remove Photo" />
-                  <Button mnemonicParsing="false" text="Search Photo" />
                   <Button mnemonicParsing="false" text="Start Slideshow" />
                </children>
             </HBox>

@@ -69,6 +69,7 @@
                   <Button mnemonicParsing="false" text="Create New Album" />
                   <Button mnemonicParsing="false" text="Delete Album" />
                   <Button mnemonicParsing="false" text="Rename Album" />
+                  <Button mnemonicParsing="false" text="Search" />
                   <Button mnemonicParsing="false" text="Log Out" />
                </children>
             </HBox>
