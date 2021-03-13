@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <GridPane layoutX="91.0" layoutY="74.0" prefHeight="253.0" prefWidth="431.0" style="-fx-border-color: black;">
@@ -30,7 +29,7 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label prefHeight="23.0" prefWidth="87.0" text="Username:" GridPane.rowIndex="1">
+            <Label prefHeight="27.0" prefWidth="147.0" text="Username:" GridPane.rowIndex="1">
                <font>
                   <Font size="18.0" />
                </font>
