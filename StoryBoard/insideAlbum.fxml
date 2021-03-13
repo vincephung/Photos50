@@ -2,13 +2,12 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
@@ -21,7 +20,7 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label prefHeight="17.0" prefWidth="383.0" text="Album name">
+                        <Label prefHeight="54.0" prefWidth="382.0" text="Album name">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -30,50 +29,7 @@
                            <children>
                               <ScrollPane prefHeight="415.0" prefWidth="382.0">
                                  <content>
-                                    <TilePane hgap="15.0" prefHeight="419.0" prefWidth="483.0" vgap="15.0">
-                                       <children>
-                                          <VBox prefHeight="139.0" prefWidth="199.0">
-                                             <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@blank%20photo.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <TextField text="Image caption" />
-                                             </children>
-                                          </VBox>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                             <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@blank%20photo.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <TextField text="Image caption" />
-                                             </children>
-                                          </VBox>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                             <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@blank%20photo.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <TextField text="Image caption" />
-                                             </children>
-                                          </VBox>
-                                          <VBox prefHeight="200.0" prefWidth="100.0">
-                                             <children>
-                                                <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@blank%20photo.jpg" />
-                                                   </image>
-                                                </ImageView>
-                                                <TextField text="Image caption" />
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </TilePane>
+                                    <ListView prefHeight="411.0" prefWidth="381.0" />
                                  </content>
                               </ScrollPane>
                            </children>
@@ -112,8 +68,7 @@
                         </HBox>
                         <HBox alignment="TOP_CENTER" prefHeight="24.0" prefWidth="282.0" spacing="10.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Copy Photo" />
-                              <Button mnemonicParsing="false" text="Move Photo" />
+                              <Button mnemonicParsing="false" text="Copy or Move Photo" />
                            </children>
                         </HBox>
                      </children>
