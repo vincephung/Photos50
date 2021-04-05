@@ -1,4 +1,4 @@
-package photos50.view;
+package controller;
 
 import java.io.IOException;
 
@@ -27,7 +27,7 @@ public class LoginController {
 		if(loginTxt.getText().equals("admin")) {
 			//change scene to admin page
 	        FXMLLoader loader = new FXMLLoader();
-	        loader.setLocation(getClass().getResource("Admin.fxml"));
+	        loader.setLocation(getClass().getResource("/view/Admin.fxml"));
 	        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	        stage.setScene(new Scene(loader.load()));
 	        stage.show();
@@ -36,7 +36,7 @@ public class LoginController {
 		else if(loginTxt.getText().equals("logic for keeping list of usernames")) {
 			//change scene to user home page
 	        FXMLLoader loader = new FXMLLoader();
-	        loader.setLocation(getClass().getResource("UserAlbums.fxml"));
+	        loader.setLocation(getClass().getResource("/view/UserAlbums.fxml"));
 	        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
 	        stage.setScene(new Scene(loader.load()));
 	        stage.show();
