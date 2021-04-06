@@ -1,8 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-
+import app.PhotosApp;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -45,7 +46,7 @@ public class LoginController {
 				stage.show();
 			}
 			//check if valid username
-			else if(User.usernameExists(loginTxt.getText())) {
+			else if(validUsername(loginTxt.getText())) {
 				//change scene to user home page
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(getClass().getResource("/view/UserAlbums.fxml"));
@@ -63,5 +64,15 @@ public class LoginController {
 				alert.showAndWait();
 			}
 		}
+	}
+	
+	private boolean validUsername(String username) {
+	    ArrayList<User> userList = PhotosApp.getAllUsers();
+	    for(User user :userList) {
+           if(user.getUsername().equals(username)) {
+                return true;
+            }
+	    }
+	    return false;
 	}
 }

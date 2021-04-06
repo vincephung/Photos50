@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import model.Admin;
 import model.User;
 
 public class PhotosApp extends Application {
@@ -40,6 +41,7 @@ public class PhotosApp extends Application {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         launch(args);
     }
 

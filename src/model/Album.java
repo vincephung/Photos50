@@ -1,7 +1,10 @@
 package model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import app.PhotosApp;
 
 public class Album implements Serializable{
     /**
@@ -10,6 +13,7 @@ public class Album implements Serializable{
     private static final long serialVersionUID = 1L;
     private ArrayList<Photo> photos;
     private String albumName;
+    private ArrayList<User> allUsers = PhotosApp.getAllUsers();
     
     public Album(String albumName) {
         this.albumName = albumName;
@@ -32,13 +36,15 @@ public class Album implements Serializable{
         return this.photos;
     }
     
-    public void addPhoto(Photo photo) {
+    public void addPhoto(Photo photo) throws IOException {
         photos.add(photo);
+        PhotosApp.save(allUsers);
     }
     
-    public void removePhoto(Photo photo) {
+    public void removePhoto(Photo photo) throws IOException {
         //might need error handling if arraylist is empty
         photos.remove(photo);
+        PhotosApp.save(allUsers);
     }
     
     public String toString() {

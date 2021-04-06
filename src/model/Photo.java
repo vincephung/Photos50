@@ -1,11 +1,13 @@
 package model;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import app.PhotosApp;
 import javafx.scene.image.Image;
 
 public class Photo implements Serializable {
@@ -18,7 +20,7 @@ public class Photo implements Serializable {
     private Date date; 
     private Image img;
     private Calendar cal;
-    
+    private ArrayList<User> allUsers = PhotosApp.getAllUsers();
     
     public Photo(String caption,Image img) {
         this.caption = caption;
@@ -39,8 +41,9 @@ public class Photo implements Serializable {
         return this.caption;
     }
     
-    public void changeCaption(String caption) {
+    public void changeCaption(String caption) throws IOException {
         this.caption = caption;
+        PhotosApp.save(allUsers);
     }
     
     public Date getDate() {
@@ -55,13 +58,15 @@ public class Photo implements Serializable {
         return this.tags;
     }
     
-    public void addTag(Tag tag) {
+    public void addTag(Tag tag) throws IOException {
         tags.add(tag);
+        PhotosApp.save(allUsers);
     }
     
-    public void removeTag(Tag tag) {
+    public void removeTag(Tag tag) throws IOException {
         //error check
         tags.remove(tag);
+        PhotosApp.save(allUsers);
     }
 
 }

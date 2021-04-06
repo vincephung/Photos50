@@ -1,32 +1,27 @@
 package model;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import app.PhotosApp;
 
 public class User implements Serializable{
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
-
-	public static ArrayList<User> users = new ArrayList<User>( Arrays.asList(new User("admin"), new User("test") ));	
     private String username;
-    private ArrayList<Photo> photos = new ArrayList<Photo>();
-    private ArrayList<Album> albums = new ArrayList<Album>();
+    private ArrayList<Photo> photos;
+    private ArrayList<Album> albums;
+    private ArrayList<User> allUsers = PhotosApp.getAllUsers();
     
     
     public User(String username) {
         this.username = username;
-    }
-    
-    public static boolean usernameExists(String username) {
-    	for(User user: users) {
-    		if(user.getUsername().equals(username)) {
-    			return true;
-    		}
-    	}
-    	return false;
+        photos = new ArrayList<Photo>();
+        albums = new ArrayList<Album>();
     }
     
     public String getUsername() {
@@ -42,23 +37,25 @@ public class User implements Serializable{
     }
     
     
-    public void createAlbum(String albumName) {
+    public void createAlbum(String albumName) throws IOException {
         albums.add(new Album(albumName));
+        PhotosApp.save(allUsers);
     }
     
-    public void deleteAlbum(Album album) {
+    public void deleteAlbum(Album album) throws IOException {
         //error checking needed if list is empty
         //check if remove works correctly
         albums.remove(album);
-        
+        PhotosApp.save(allUsers);
     }
     
     public void openAlbum() {
         
     }
     
-    public void renameAlbum(Album album, String albumName) {
+    public void renameAlbum(Album album, String albumName) throws IOException {
         album.renameAlbum(albumName);
+        PhotosApp.save(allUsers);
     }
     
     public String toString() {
