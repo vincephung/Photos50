@@ -1,8 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class User {
+	
+	public static ArrayList<User> users = new ArrayList<User>( Arrays.asList(new User("admin"), new User("test") ));
+	
     private String username;
     //private boolean admin;
     private ArrayList<Photo> photos = new ArrayList<Photo>();
@@ -10,6 +14,15 @@ public class User {
     
     public User(String username) {
         this.username = username;
+    }
+    
+    public static boolean usernameExists(String username) {
+    	for(User user: users) {
+    		if(user.getUsername().equals(username)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
     
     public String getUsername() {
