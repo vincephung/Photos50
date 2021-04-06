@@ -2,12 +2,15 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class User implements Serializable{
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+
+	public static ArrayList<User> users = new ArrayList<User>( Arrays.asList(new User("admin"), new User("test") ));	
     private String username;
     private ArrayList<Photo> photos = new ArrayList<Photo>();
     private ArrayList<Album> albums = new ArrayList<Album>();
@@ -15,6 +18,15 @@ public class User implements Serializable{
     
     public User(String username) {
         this.username = username;
+    }
+    
+    public static boolean usernameExists(String username) {
+    	for(User user: users) {
+    		if(user.getUsername().equals(username)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
     
     public String getUsername() {
