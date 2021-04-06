@@ -29,11 +29,11 @@ public class SlideshowController {
         
     }
     
-    public void previous() {
+    public void previous(ActionEvent e) throws IOException {
         
     }
     
-    public void next() {
+    public void next(ActionEvent e) throws IOException {
         
     }
     

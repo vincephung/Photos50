@@ -38,11 +38,11 @@ public class SearchController {
 
     }
 
-    public void saveAlbum() {
+    public void saveAlbum(ActionEvent e) throws IOException {
 
     }
 
-    public void search() {
+    public void search(ActionEvent e) throws IOException {
 
     }
 

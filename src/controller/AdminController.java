@@ -36,7 +36,7 @@ public class AdminController {
         text.showAndWait();
 	}
 	
-	public void deleteUser() {
+	public void deleteUser(ActionEvent e) throws IOException {
 	    
 	}
 	

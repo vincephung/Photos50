@@ -26,11 +26,11 @@ public class CopyMovePhotoController {
         
     }
     
-    public void move() {
+    public void move(ActionEvent e) throws IOException {
         
     }
     
-    public void copy() {
+    public void copy(ActionEvent e) throws IOException {
         
     }
     
