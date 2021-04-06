@@ -1,16 +1,21 @@
 package model;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 import javafx.scene.image.Image;
 
-public class Photo {
+public class Photo implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private ArrayList<Tag> tags;
     private String caption;
-    private Date date; //need to import calender
+    private Date date; 
     private Image img;
     private Calendar cal;
     
@@ -25,9 +30,9 @@ public class Photo {
     private void initDate(Image img) {
         File imgFile = new File(img.getUrl());
         cal = Calendar.getInstance();
+        cal.set(Calendar.MILLISECOND,0);
         cal.setTimeInMillis(imgFile.lastModified());
         date = cal.getTime();
-        //cal.set(Calendar.MILLISECOND,0)
     }
     
     public String getCaption() {

@@ -1,12 +1,17 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class User {
+public class User implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private String username;
-    //private boolean admin;
     private ArrayList<Photo> photos = new ArrayList<Photo>();
     private ArrayList<Album> albums = new ArrayList<Album>();
+    
     
     public User(String username) {
         this.username = username;
@@ -15,18 +20,6 @@ public class User {
     public String getUsername() {
         return this.username;
     }
-    
-    /*public boolean isAdmin() {
-        return admin;
-    }
-    */
-    
-    /*
-    public void deleteUser(User user) {
-        //might need error handling
-        user = null;
-    }
-    */
     
     public ArrayList<Photo> getPhotos(){
         return this.photos;
@@ -38,8 +31,7 @@ public class User {
     
     
     public void createAlbum(String albumName) {
-        Album album = new Album(albumName);
-        albums.add(album);
+        albums.add(new Album(albumName));
     }
     
     public void deleteAlbum(Album album) {
@@ -55,6 +47,10 @@ public class User {
     
     public void renameAlbum(Album album, String albumName) {
         album.renameAlbum(albumName);
+    }
+    
+    public String toString() {
+        return this.username;
     }
     
 }

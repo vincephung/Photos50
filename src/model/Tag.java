@@ -1,8 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tag {
+public class Tag implements Serializable{
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
     private String name;
     private ArrayList<String> values;
     
