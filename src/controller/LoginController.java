@@ -47,6 +47,8 @@ public class LoginController {
 			}
 			//check if valid username
 			else if(validUsername(loginTxt.getText())) {
+			    //Set current user
+			    PhotosApp.setCurrentUser(PhotosApp.getUser(loginTxt.getText()));
 				//change scene to user home page
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(getClass().getResource("/view/UserAlbums.fxml"));
@@ -75,4 +77,5 @@ public class LoginController {
 	    }
 	    return false;
 	}
+	
 }

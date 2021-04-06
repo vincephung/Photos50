@@ -22,6 +22,7 @@ public class PhotosApp extends Application {
     public static final String storeDir = "data";
     public static final String storeFile = "users.dat";
     private static ArrayList<User> allUsers;
+    private static User currentUser;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -68,6 +69,24 @@ public class PhotosApp extends Application {
 
     public static ArrayList<User> getAllUsers() {
         return allUsers;
+    }
+    
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+    
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+    
+    // given username return User object
+    public static User getUser(String username) {
+        for (User user : allUsers) {
+            if (user.getUsername().equals(username)) {
+                return user;
+            }
+        }
+        return null; // error, no user found
     }
 
 }

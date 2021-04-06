@@ -9,15 +9,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import model.User;
 
-public class CopyMovePhotoController {
-    @FXML ChoiceBox choiceBox;
-    @FXML Button moveBtn;
-    @FXML Button copyBtn;
+public class AddPhotoController {
+    @FXML Button saveBtn;
     @FXML Button cancelBtn;
+    @FXML TextField photoPathTxt;
 
     User currentUser = PhotosApp.getCurrentUser();
     
@@ -26,12 +25,14 @@ public class CopyMovePhotoController {
         
     }
     
-    public void move() {
+    public void save(ActionEvent e) throws IOException {
         
-    }
-    
-    public void copy() {
         
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/view/insideAlbum.fxml"));
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(loader.load()));
+        stage.show();
     }
     
     public void cancel(ActionEvent e) throws IOException {

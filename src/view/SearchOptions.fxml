@@ -20,9 +20,9 @@
                   <VBox alignment="TOP_CENTER" prefHeight="325.0" prefWidth="350.0" spacing="20.0">
                      <children>
                         <Label text="Search By Date" />
-                        <DatePicker />
+                        <DatePicker fx:id="datePicker" />
                         <Label prefHeight="17.0" prefWidth="88.0" text="Search Results" />
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="searchResults" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                      <padding>
                         <Insets left="10.0" />
@@ -35,32 +35,32 @@
                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label text="1." />
-                              <TextField promptText="person=andre" />
+                              <TextField fx:id="firstTag" promptText="person=andre" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="33.0" prefWidth="270.0" spacing="15.0">
                            <children>
-                              <RadioButton mnemonicParsing="false" text="And" />
-                              <RadioButton mnemonicParsing="false" text="Or" />
+                              <RadioButton fx:id="andBtn" mnemonicParsing="false" text="And" />
+                              <RadioButton fx:id="orBtn" mnemonicParsing="false" text="Or" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" prefHeight="25.0" prefWidth="200.0" spacing="10.0">
                            <children>
                               <Label text="2. " />
-                              <TextField alignment="TOP_LEFT" promptText="location=prague" />
+                              <TextField fx:id="secondTag" alignment="TOP_LEFT" promptText="location=prague" />
                            </children>
                         </HBox>
                         <Label text="List of Tags" />
-                        <ListView prefHeight="200.0" prefWidth="200.0" />
+                        <ListView fx:id="tagList" prefHeight="200.0" prefWidth="200.0" />
                      </children>
                   </VBox>
                </children>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="15.0">
                <children>
-                  <Button mnemonicParsing="false" text="Save to Album" />
-                  <Button mnemonicParsing="false" text="Search" />
-                  <Button mnemonicParsing="false" text="Cancel" />
+                  <Button fx:id="saveBtn" mnemonicParsing="false" onAction="#saveAlbum" text="Save to Album" />
+                  <Button fx:id="searchBtn" mnemonicParsing="false" onAction="#search" text="Search" />
+                  <Button fx:id="cancelBtn" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
                </children>
             </HBox>
          </children>

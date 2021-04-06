@@ -13,24 +13,24 @@
    <children>
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="15.0">
          <children>
-            <Label text="Album Name">
+            <Label fx:id="albumNameLbl" text="Album Name">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <ImageView fitHeight="339.0" fitWidth="464.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="img" fitHeight="339.0" fitWidth="464.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@blank%20photo.jpg" />
                </image>
             </ImageView>
             <HBox alignment="CENTER" prefHeight="31.0" prefWidth="334.0" spacing="20.0">
                <children>
-                  <Button mnemonicParsing="false" text="Previous" />
-                  <Label text="Caption" />
-                  <Button mnemonicParsing="false" text="Next" />
+                  <Button fx:id="previousBtn" mnemonicParsing="false" onAction="#previous" text="Previous" />
+                  <Label fx:id="captionLbl" text="Caption" />
+                  <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#next" text="Next" />
                </children>
             </HBox>
          </children>
       </VBox>
-      <Button mnemonicParsing="false" text="Back to Album" />
+      <Button fx:id="backBtn" mnemonicParsing="false" onAction="#back" text="Back to Album" />
    </children>
 </AnchorPane>

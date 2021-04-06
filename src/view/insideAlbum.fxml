@@ -15,7 +15,7 @@
    <children>
       <VBox prefHeight="500.0" prefWidth="668.0">
          <children>
-            <Button mnemonicParsing="false" text="Back to albums" />
+            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#back" text="Back to albums" />
             <HBox prefHeight="415.0" prefWidth="451.0" spacing="5.0">
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
@@ -61,14 +61,14 @@
                         </VBox>
                         <HBox alignment="CENTER" prefHeight="45.0" prefWidth="282.0" spacing="10.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Edit Caption" />
-                              <Button mnemonicParsing="false" prefHeight="24.0" prefWidth="71.0" text="Delete tag" />
-                              <Button mnemonicParsing="false" text="Add Tag" />
+                              <Button fx:id="editCaptionBtn" mnemonicParsing="false" onAction="#editCaption" text="Edit Caption" />
+                              <Button fx:id="deleteTagBtn" mnemonicParsing="false" onAction="#deleteTag" prefHeight="24.0" prefWidth="71.0" text="Delete tag" />
+                              <Button fx:id="addTagBtn" mnemonicParsing="false" onAction="#addTag" text="Add Tag" />
                            </children>
                         </HBox>
                         <HBox alignment="TOP_CENTER" prefHeight="24.0" prefWidth="282.0" spacing="10.0">
                            <children>
-                              <Button mnemonicParsing="false" text="Copy or Move Photo" />
+                              <Button fx:id="copyMoveBtn" mnemonicParsing="false" onAction="#copyMovePhoto" text="Copy or Move Photo" />
                            </children>
                         </HBox>
                      </children>
@@ -77,9 +77,9 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="54.0" prefWidth="653.0" spacing="15.0">
                <children>
-                  <Button mnemonicParsing="false" text="Add Photo" />
-                  <Button mnemonicParsing="false" text="Remove Photo" />
-                  <Button mnemonicParsing="false" text="Start Slideshow" />
+                  <Button fx:id="addPhotoBtn" mnemonicParsing="false" onAction="#addPhoto" text="Add Photo" />
+                  <Button fx:id="removePhotoBtn" mnemonicParsing="false" onAction="#removePhoto" text="Remove Photo" />
+                  <Button fx:id="slideshowBtn" mnemonicParsing="false" onAction="#startSlideshow" text="Start Slideshow" />
                </children>
             </HBox>
          </children>
