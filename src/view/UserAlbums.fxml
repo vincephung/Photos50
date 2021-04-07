@@ -53,12 +53,12 @@
             </Label>
             <ScrollPane prefHeight="435.0" prefWidth="834.0">
                <content>
-                  <TableView prefHeight="434.0" prefWidth="653.0">
+                  <TableView fx:id="tableView" prefHeight="434.0" prefWidth="653.0">
                     <columns>
-                      <TableColumn prefWidth="237.0" text="Album Name" />
-                      <TableColumn prefWidth="130.0" text="Number of Photos" />
-                        <TableColumn minWidth="0.0" prefWidth="150.0" text="Earliest Date" />
-                        <TableColumn minWidth="0.0" prefWidth="133.0" text="Latest Date" />
+                      <TableColumn fx:id="albumNameCol" prefWidth="237.0" text="Album Name" />
+                      <TableColumn fx:id="numPhotosCol" prefWidth="130.0" text="Number of Photos" />
+                        <TableColumn fx:id="earliestDateCol" minWidth="0.0" prefWidth="150.0" text="Earliest Date" />
+                        <TableColumn fx:id="latestDateCol" minWidth="0.0" prefWidth="133.0" text="Latest Date" />
                     </columns>
                   </TableView>
                </content>

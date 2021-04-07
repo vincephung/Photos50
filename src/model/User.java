@@ -52,7 +52,7 @@ public class User implements Serializable {
     }
 
     public void renameAlbum(Album album, String albumName) throws IOException {
-        album.renameAlbum(albumName);
+        album.setAlbumName(albumName);
         PhotosApp.save(allUsers);
     }
 
