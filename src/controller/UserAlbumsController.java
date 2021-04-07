@@ -12,6 +12,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
@@ -48,45 +50,66 @@ public class UserAlbumsController {
     
     User currentUser = PhotosApp.getCurrentUser();
     ObservableList<Album> albumList;
+    Album selectedAlbum;
 
-
+    //fill tableview with data from albumList
     public void initialize() {
         userTitleLbl.setText(currentUser.getUsername() + "'s Albums");
         albumList = FXCollections.observableArrayList(currentUser.getAlbums());
-        tableView = new TableView<Album>();
-        
-        albumNameCol = new TableColumn<Album,String>("Album Name");
-        numPhotosCol = new TableColumn<Album,Integer>("Number of Photos");
-        earliestDateCol = new TableColumn<Album,Date>("Earliest Date");
-        latestDateCol = new TableColumn<Album,Date>("Latest Date");
-        
-        
+          
         albumNameCol.setCellValueFactory(new PropertyValueFactory<Album,String>("albumName"));
-        //numphotos needs attribute?
         numPhotosCol.setCellValueFactory(new PropertyValueFactory<Album,Integer>("numPhotos"));
         earliestDateCol.setCellValueFactory(new PropertyValueFactory<Album,Date>("earliestDate"));
         latestDateCol.setCellValueFactory(new PropertyValueFactory<Album,Date>("latestDate"));
 
         tableView.setItems(albumList);
-        tableView.getColumns().addAll(albumNameCol,numPhotosCol,earliestDateCol,latestDateCol);
-
-        
-
     }
 
-    public void openAlbum(ActionEvent e) throws IOException {
+    public void openAlbum(ActionEvent e) throws IOException { 
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/insideAlbum.fxml"));
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(loader.load()));
+        
+        //Open selected album
+        InsideAlbumController controller = loader.getController();
+        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+        selectedAlbum = albumList.get(selectedIndex); 
+        controller.initData(selectedAlbum);
+        
         stage.show();
     }
 
-    public void createAlbum(ActionEvent e) throws IOException {
+    public void createAlbum(ActionEvent e) throws IOException {        
+        Optional<String> result = createTextDialog("new");
+        if(!result.isEmpty()) {
+            currentUser.createAlbum(result.get());
+            updateTable();
+        }
+        
+    }
+    
+    public void renameAlbum(ActionEvent e) throws IOException {
+        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+        selectedAlbum = albumList.get(selectedIndex);    
+        
+        Optional<String> result = createTextDialog("rename");
+        if(!result.isEmpty()) {
+            currentUser.renameAlbum(selectedAlbum,result.get());
+            updateTable();
+        }
+    }
+    
+    //create text input dialog and returns user input
+    private Optional<String> createTextDialog(String type){
         TextInputDialog inputDialog = new TextInputDialog();
         inputDialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        inputDialog.setTitle("Create New Album");
         inputDialog.setHeaderText("Enter Album Name:");
+        if(type.equals("new")) {
+            inputDialog.setTitle("Create New Album");
+        }else {
+            inputDialog.setTitle("Rename Album");
+        }
 
         final Button okBtn = (Button) inputDialog.getDialogPane().lookupButton(ButtonType.OK);
         TextField textField = inputDialog.getEditor();
@@ -99,13 +122,19 @@ public class UserAlbumsController {
             }
         });
         
-        Optional<String> result = inputDialog.showAndWait();
-        if(!result.isEmpty()) {
-            //successfully create album
-            currentUser.createAlbum(result.get());
-        }
+         //Return user input from text dialog
+         return inputDialog.showAndWait();
     }
+    
+    //When a change occurs in the table, refresh the table to see changes
+    private void updateTable() {
+        albumList = FXCollections.observableArrayList(currentUser.getAlbums());
+        tableView.setItems(albumList);
+        tableView.refresh();
+    }
+    
 
+    //check if album already exists in album list
     private boolean duplicateAlbum(String userInput) {
         for (Album album : currentUser.getAlbums()) {
             if (album.getAlbumName().equals(userInput)) {
@@ -114,33 +143,21 @@ public class UserAlbumsController {
         }
         return false;
     }
-    
-    public void renameAlbum(ActionEvent e) throws IOException {
-        TextInputDialog inputDialog = new TextInputDialog();
-        inputDialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
-        inputDialog.setTitle("Rename Album");
-        inputDialog.setHeaderText("Enter Album Name:");
-
-        final Button okBtn = (Button) inputDialog.getDialogPane().lookupButton(ButtonType.OK);
-        TextField textField = inputDialog.getEditor();
-        
-        //Handle input validation when OK button is clicked
-        okBtn.addEventFilter(ActionEvent.ACTION, event -> {
-            if (duplicateAlbum(textField.getText())) {
-                inputDialog.setContentText("Duplicate album name try again");
-                event.consume();
-            }
-        });
-        
-        Optional<String> result = inputDialog.showAndWait();
-        if(!result.isEmpty()) {
-            //currentUser.renameAlbum(result.get());
-        }
-
-    }
 
     public void deleteAlbum(ActionEvent e) throws IOException {
-
+        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+        selectedAlbum = albumList.get(selectedIndex);  
+        
+        Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this album?", ButtonType.YES,
+                ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+        
+        if(result.get() == ButtonType.YES) {
+            currentUser.deleteAlbum(selectedAlbum);
+            updateTable();
+        }else {
+            return;
+        }
     }
 
     public void search(ActionEvent e) throws IOException {

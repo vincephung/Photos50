@@ -9,10 +9,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import model.Album;
 import model.User;
 
 public class InsideAlbumController {
+    @FXML Label albumNameLbl;
+    @FXML Label captionLbl;
+    @FXML Label dateLbl;
     @FXML Button backBtn;
     @FXML Button addPhotoBtn;
     @FXML Button removePhotoBtn;
@@ -23,9 +28,11 @@ public class InsideAlbumController {
     @FXML Button copyMoveBtn;
 
     User currentUser = PhotosApp.getCurrentUser();
-    
-    
-    public void initialize() {
+    Album selectedAlbum;
+        
+    public void initData(Album album) {
+        selectedAlbum = album;
+        albumNameLbl.setText(selectedAlbum.getAlbumName());
         
     }
     

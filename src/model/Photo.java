@@ -32,8 +32,8 @@ public class Photo implements Serializable {
     private void initDate(Image img) {
         File imgFile = new File(img.getUrl());
         cal = Calendar.getInstance();
-        cal.set(Calendar.MILLISECOND,0);
         cal.setTimeInMillis(imgFile.lastModified());
+        cal.set(Calendar.MILLISECOND,0);
         date = cal.getTime();
     }
     

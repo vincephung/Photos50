@@ -43,6 +43,9 @@ public class PhotosApp extends Application {
             e.printStackTrace();
         }
         
+        allUsers.add(new User("test2"));
+        save(allUsers);
+        
         launch(args);
     }
 

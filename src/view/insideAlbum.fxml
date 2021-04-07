@@ -20,7 +20,7 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label prefHeight="54.0" prefWidth="382.0" text="Album name">
+                        <Label fx:id="albumNameLbl" alignment="CENTER" contentDisplay="TOP" prefHeight="54.0" prefWidth="382.0" text="Album name">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -45,8 +45,8 @@
                                     <Image url="@blank%20photo.jpg" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="17.0" prefWidth="255.0" text="Caption" />
-                              <Label text="Date: " />
+                              <Label fx:id="captionLbl" prefHeight="17.0" prefWidth="255.0" text="Caption" />
+                              <Label fx:id="dateLbl" text="Date: " />
                               <HBox prefHeight="128.0" prefWidth="282.0">
                                  <children>
                                     <Label prefHeight="17.0" prefWidth="70.0" text="Tags: " />

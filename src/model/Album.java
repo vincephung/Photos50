@@ -25,12 +25,13 @@ public class Album implements Serializable{
         latestDate = new Date();
     }
     
+    
     public int getNumPhotos() {
         return this.photos.size();
     }
     
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
+    public void setAlbumName(String newName) {
+        this.albumName = newName;
     }
     
     public String getAlbumName() {

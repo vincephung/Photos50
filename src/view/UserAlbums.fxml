@@ -55,10 +55,10 @@
                <content>
                   <TableView fx:id="tableView" prefHeight="434.0" prefWidth="653.0">
                     <columns>
-                      <TableColumn fx:id="albumNameCol" prefWidth="237.0" text="Album Name" />
-                      <TableColumn fx:id="numPhotosCol" prefWidth="130.0" text="Number of Photos" />
-                        <TableColumn fx:id="earliestDateCol" minWidth="0.0" prefWidth="150.0" text="Earliest Date" />
-                        <TableColumn fx:id="latestDateCol" minWidth="0.0" prefWidth="133.0" text="Latest Date" />
+                      <TableColumn fx:id="albumNameCol" prefWidth="237.0" style="-fx-alignment: CENTER;" text="Album Name" />
+                      <TableColumn fx:id="numPhotosCol" prefWidth="130.0" style="-fx-alignment: CENTER;" text="Number of Photos" />
+                        <TableColumn fx:id="earliestDateCol" minWidth="0.0" prefWidth="150.0" style="-fx-alignment: CENTER;" text="Earliest Date" />
+                        <TableColumn fx:id="latestDateCol" minWidth="0.0" prefWidth="133.0" style="-fx-alignment: CENTER;" text="Latest Date" />
                     </columns>
                   </TableView>
                </content>
