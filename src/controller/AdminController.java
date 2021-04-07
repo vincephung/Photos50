@@ -19,6 +19,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import model.Admin;
 import model.User;
 
 
@@ -31,7 +32,8 @@ public class AdminController {
 	@FXML Button logoutBtn;
 	@FXML ListView<User> userList;
 	
-    private ObservableList<User> obsList = FXCollections.observableArrayList(PhotosApp.getAllUsers());
+	private Admin admin = new Admin();
+    private ObservableList<User> obsList = FXCollections.observableArrayList(admin.listAllUsers());
 
     /*
      * populates the users list
@@ -73,7 +75,12 @@ public class AdminController {
         	}
         	else {
         		obsList.add(new User(temp));
-        		PhotosApp.getAllUsers().add(new User(temp));
+        		try {
+					admin.createUser(temp);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
         	}
         	
         });
@@ -90,7 +97,7 @@ public class AdminController {
         if (result.get() == ButtonType.YES) {
     		User selectedUser = obsList.get(userList.getSelectionModel().getSelectedIndex());
     		obsList.remove(selectedUser);
-    		PhotosApp.getAllUsers().remove(selectedUser);
+    		admin.deleteUser(selectedUser);
 
         } else {
             return;
