@@ -80,7 +80,7 @@ public class UserAlbumsController {
         stage.show();
     }
 
-    public void createAlbum(ActionEvent e) throws IOException {        
+    public void createAlbum(ActionEvent e) throws IOException { 
         Optional<String> result = createTextDialog("new");
         if(!result.isEmpty()) {
             currentUser.createAlbum(result.get());
@@ -91,6 +91,7 @@ public class UserAlbumsController {
     
     public void renameAlbum(ActionEvent e) throws IOException {
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+        if(selectedIndex == -1) return; // User did not select an album
         selectedAlbum = albumList.get(selectedIndex);    
         
         Optional<String> result = createTextDialog("rename");
@@ -105,15 +106,18 @@ public class UserAlbumsController {
         TextInputDialog inputDialog = new TextInputDialog();
         inputDialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         inputDialog.setHeaderText("Enter Album Name:");
+        final Button okBtn = (Button) inputDialog.getDialogPane().lookupButton(ButtonType.OK);
+        TextField textField = inputDialog.getEditor();
+        
         if(type.equals("new")) {
             inputDialog.setTitle("Create New Album");
         }else {
             inputDialog.setTitle("Rename Album");
+            int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+            selectedAlbum = albumList.get(selectedIndex);
+            textField.setText(selectedAlbum.getAlbumName());
         }
-
-        final Button okBtn = (Button) inputDialog.getDialogPane().lookupButton(ButtonType.OK);
-        TextField textField = inputDialog.getEditor();
-        
+ 
         //Handle input validation when OK button is clicked
         okBtn.addEventFilter(ActionEvent.ACTION, event -> {
             if (duplicateAlbum(textField.getText())) {
@@ -146,6 +150,7 @@ public class UserAlbumsController {
 
     public void deleteAlbum(ActionEvent e) throws IOException {
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+        if(selectedIndex == -1) return; // User did not select an album
         selectedAlbum = albumList.get(selectedIndex);  
         
         Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this album?", ButtonType.YES,
