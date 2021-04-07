@@ -91,7 +91,8 @@ public class UserAlbumsController {
     
     public void renameAlbum(ActionEvent e) throws IOException {
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
-        if(selectedIndex == -1) return; // User did not select an album
+        if(!selectedAlbum(selectedIndex)) return; // User did not select an album
+
         selectedAlbum = albumList.get(selectedIndex);    
         
         Optional<String> result = createTextDialog("rename");
@@ -99,6 +100,15 @@ public class UserAlbumsController {
             currentUser.renameAlbum(selectedAlbum,result.get());
             updateTable();
         }
+    }
+    
+    private boolean selectedAlbum(int selectedIndex) {
+        if(selectedIndex == -1) {
+            Alert alert = new Alert(AlertType.ERROR, "You must select an album!");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
     
     //create text input dialog and returns user input
@@ -150,7 +160,7 @@ public class UserAlbumsController {
 
     public void deleteAlbum(ActionEvent e) throws IOException {
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
-        if(selectedIndex == -1) return; // User did not select an album
+        if(!selectedAlbum(selectedIndex)) return; // User did not select an album
         selectedAlbum = albumList.get(selectedIndex);  
         
         Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this album?", ButtonType.YES,
