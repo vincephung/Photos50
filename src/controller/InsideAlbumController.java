@@ -31,14 +31,14 @@ public class InsideAlbumController {
     @FXML Button deleteTagBtn;
     @FXML Button addTagBtn;
     @FXML Button copyMoveBtn;
-
+    
     User currentUser = PhotosApp.getCurrentUser();
     Album selectedAlbum;
+    
         
     public void initData(Album album) {
         selectedAlbum = album;
         albumNameLbl.setText(selectedAlbum.getAlbumName());
-        
     }
     
     public void back(ActionEvent e) throws IOException {
@@ -73,11 +73,16 @@ public class InsideAlbumController {
 
     }
     
-    public void startSlideshow(ActionEvent e) throws IOException {
+    public void startSlideshow(ActionEvent e) throws IOException {        
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/Slideshow.fxml"));
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(loader.load()));
+
+        // Open slideshow for current album
+        SlideshowController controller = loader.getController();
+        controller.initData(selectedAlbum);
+
         stage.show();
     }
     
