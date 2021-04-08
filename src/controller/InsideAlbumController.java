@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 
 import app.PhotosApp;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -31,14 +34,17 @@ public class InsideAlbumController {
     @FXML Button deleteTagBtn;
     @FXML Button addTagBtn;
     @FXML Button copyMoveBtn;
+    @FXML ListView<Photo> listView;
     
-    User currentUser = PhotosApp.getCurrentUser();
-    Album selectedAlbum;
+    private User currentUser = PhotosApp.getCurrentUser();
+    private Album selectedAlbum;
+    private ObservableList<Photo> obsList;
     
-        
     public void initData(Album album) {
         selectedAlbum = album;
         albumNameLbl.setText(selectedAlbum.getAlbumName());
+        obsList = FXCollections.observableArrayList(selectedAlbum.getPhotos());
+        listView.setItems(obsList);
     }
     
     public void back(ActionEvent e) throws IOException {

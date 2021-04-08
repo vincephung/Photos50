@@ -29,7 +29,7 @@
                            <children>
                               <ScrollPane prefHeight="415.0" prefWidth="382.0">
                                  <content>
-                                    <ListView fx:id="photoList" prefHeight="411.0" prefWidth="381.0" />
+                                    <ListView fx:id="listView" prefHeight="411.0" prefWidth="381.0" />
                                  </content>
                               </ScrollPane>
                            </children>
