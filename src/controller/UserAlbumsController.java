@@ -42,113 +42,125 @@ public class UserAlbumsController {
     Button searchBtn;
     @FXML
     Button logoutBtn;
-    @FXML TableView<Album> tableView;
-    @FXML TableColumn<Album,String> albumNameCol;
-    @FXML TableColumn<Album,Integer> numPhotosCol;
-    @FXML TableColumn<Album,Date> earliestDateCol;
-    @FXML TableColumn<Album,Date> latestDateCol;
-    
+    @FXML
+    TableView<Album> tableView;
+    @FXML
+    TableColumn<Album, String> albumNameCol;
+    @FXML
+    TableColumn<Album, Integer> numPhotosCol;
+    @FXML
+    TableColumn<Album, Date> earliestDateCol;
+    @FXML
+    TableColumn<Album, Date> latestDateCol;
+
     User currentUser = PhotosApp.getCurrentUser();
     ObservableList<Album> albumList;
     Album selectedAlbum;
 
-    //fill tableview with data from albumList
+    // fill tableview with data from albumList
     public void initialize() {
         userTitleLbl.setText(currentUser.getUsername() + "'s Albums");
         albumList = FXCollections.observableArrayList(currentUser.getAlbums());
-          
-        albumNameCol.setCellValueFactory(new PropertyValueFactory<Album,String>("albumName"));
-        numPhotosCol.setCellValueFactory(new PropertyValueFactory<Album,Integer>("numPhotos"));
-        earliestDateCol.setCellValueFactory(new PropertyValueFactory<Album,Date>("earliestDate"));
-        latestDateCol.setCellValueFactory(new PropertyValueFactory<Album,Date>("latestDate"));
+
+        albumNameCol.setCellValueFactory(new PropertyValueFactory<Album, String>("albumName"));
+        numPhotosCol.setCellValueFactory(new PropertyValueFactory<Album, Integer>("numPhotos"));
+        earliestDateCol.setCellValueFactory(new PropertyValueFactory<Album, Date>("earliestDate"));
+        latestDateCol.setCellValueFactory(new PropertyValueFactory<Album, Date>("latestDate"));
 
         tableView.setItems(albumList);
     }
 
-    public void openAlbum(ActionEvent e) throws IOException { 
+    public void openAlbum(ActionEvent e) throws IOException {
+        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
+        if (!selectedAlbum(selectedIndex)) {
+            return; // User did not select an album
+        }
+        selectedAlbum = albumList.get(selectedIndex);
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/insideAlbum.fxml"));
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.setScene(new Scene(loader.load()));
-        
-        //Open selected album
+
+        // Open selected album
         InsideAlbumController controller = loader.getController();
-        int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
-        selectedAlbum = albumList.get(selectedIndex); 
         controller.initData(selectedAlbum);
-        
+
         stage.show();
     }
 
-    public void createAlbum(ActionEvent e) throws IOException { 
+    public void createAlbum(ActionEvent e) throws IOException {
         Optional<String> result = createTextDialog("new");
-        if(!result.isEmpty()) {
+        if (!result.isEmpty()) {
             currentUser.createAlbum(result.get());
             updateTable();
         }
-        
+
     }
-    
+
     public void renameAlbum(ActionEvent e) throws IOException {
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
-        if(!selectedAlbum(selectedIndex)) return; // User did not select an album
+        if (!selectedAlbum(selectedIndex)) {
+            return; // User did not select an album
+        }
 
-        selectedAlbum = albumList.get(selectedIndex);    
-        
+        selectedAlbum = albumList.get(selectedIndex);
+
         Optional<String> result = createTextDialog("rename");
-        if(!result.isEmpty()) {
-            currentUser.renameAlbum(selectedAlbum,result.get());
+        if (!result.isEmpty()) {
+            currentUser.renameAlbum(selectedAlbum, result.get());
             updateTable();
         }
     }
-    
+
+    // Returns true if user has selected an album
     private boolean selectedAlbum(int selectedIndex) {
-        if(selectedIndex == -1) {
+        if (selectedIndex == -1) {
             Alert alert = new Alert(AlertType.ERROR, "You must select an album!");
+            alert.setHeaderText("No Album Selected");
             alert.showAndWait();
             return false;
         }
         return true;
     }
-    
-    //create text input dialog and returns user input
-    private Optional<String> createTextDialog(String type){
+
+    // create text input dialog and returns user input
+    private Optional<String> createTextDialog(String type) {
         TextInputDialog inputDialog = new TextInputDialog();
         inputDialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
         inputDialog.setHeaderText("Enter Album Name:");
         final Button okBtn = (Button) inputDialog.getDialogPane().lookupButton(ButtonType.OK);
         TextField textField = inputDialog.getEditor();
-        
-        if(type.equals("new")) {
+
+        if (type.equals("new")) {
             inputDialog.setTitle("Create New Album");
-        }else {
+        } else {
             inputDialog.setTitle("Rename Album");
             int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
             selectedAlbum = albumList.get(selectedIndex);
             textField.setText(selectedAlbum.getAlbumName());
         }
- 
-        //Handle input validation when OK button is clicked
+
+        // Handle input validation when OK button is clicked
         okBtn.addEventFilter(ActionEvent.ACTION, event -> {
             if (duplicateAlbum(textField.getText())) {
                 inputDialog.setContentText("Duplicate album name try again");
                 event.consume();
             }
         });
-        
-         //Return user input from text dialog
-         return inputDialog.showAndWait();
+
+        // Return user input from text dialog
+        return inputDialog.showAndWait();
     }
-    
-    //When a change occurs in the table, refresh the table to see changes
+
+    // When a change occurs in the table, refresh the table to see changes
     private void updateTable() {
         albumList = FXCollections.observableArrayList(currentUser.getAlbums());
         tableView.setItems(albumList);
         tableView.refresh();
     }
-    
 
-    //check if album already exists in album list
+    // check if album already exists in album list
     private boolean duplicateAlbum(String userInput) {
         for (Album album : currentUser.getAlbums()) {
             if (album.getAlbumName().equals(userInput)) {
@@ -160,17 +172,19 @@ public class UserAlbumsController {
 
     public void deleteAlbum(ActionEvent e) throws IOException {
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
-        if(!selectedAlbum(selectedIndex)) return; // User did not select an album
-        selectedAlbum = albumList.get(selectedIndex);  
-        
+        if (!selectedAlbum(selectedIndex)) {
+            return; // User did not select an album
+        }
+        selectedAlbum = albumList.get(selectedIndex);
+
         Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this album?", ButtonType.YES,
                 ButtonType.NO);
         Optional<ButtonType> result = alert.showAndWait();
-        
-        if(result.get() == ButtonType.YES) {
+
+        if (result.get() == ButtonType.YES) {
             currentUser.deleteAlbum(selectedAlbum);
             updateTable();
-        }else {
+        } else {
             return;
         }
     }

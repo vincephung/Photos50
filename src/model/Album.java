@@ -21,8 +21,8 @@ public class Album implements Serializable{
     public Album(String albumName) {
         this.albumName = albumName;
         photos = new ArrayList<Photo>();
-        earliestDate = new Date();
-        latestDate = new Date();
+        earliestDate = null;
+        latestDate = null;
     }
     
     
