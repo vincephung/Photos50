@@ -18,15 +18,13 @@ public class Photo implements Serializable {
     private ArrayList<Tag> tags;
     private String caption;
     private Date date; 
-    private Image img;
+    private File path;
     private Calendar cal;
     private ArrayList<User> allUsers = PhotosApp.getAllUsers();
     
-    public Photo(String caption,Image img) {
-        this.caption = caption;
-        this.img = img;
-        tags = new ArrayList<Tag>(); 
-        initDate(img); //set date
+    public Photo(File path) {
+    	this.path = path;
+    	this.date = new Date(path.lastModified());
     }
     
     private void initDate(Image img) {
@@ -50,8 +48,8 @@ public class Photo implements Serializable {
         return this.date;
     }
     
-    public Image getImage() {
-        return this.img;
+    public File getPath() {
+        return this.path;
     }
     
     public ArrayList<Tag> getTags() {

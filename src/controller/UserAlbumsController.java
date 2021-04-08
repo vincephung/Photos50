@@ -68,6 +68,7 @@ public class UserAlbumsController {
         latestDateCol.setCellValueFactory(new PropertyValueFactory<Album, Date>("latestDate"));
 
         tableView.setItems(albumList);
+        tableView.getSelectionModel().select(0);
     }
 
     public void openAlbum(ActionEvent e) throws IOException {
@@ -115,7 +116,7 @@ public class UserAlbumsController {
 
     // Returns true if user has selected an album
     private boolean selectedAlbum(int selectedIndex) {
-        if (selectedIndex == -1) {
+        if(selectedIndex == -1) {
             Alert alert = new Alert(AlertType.ERROR, "You must select an album!");
             alert.setHeaderText("No Album Selected");
             alert.showAndWait();
