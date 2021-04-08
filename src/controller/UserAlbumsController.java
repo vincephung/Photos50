@@ -61,8 +61,8 @@ public class UserAlbumsController {
         numPhotosCol.setCellValueFactory(new PropertyValueFactory<Album,Integer>("numPhotos"));
         earliestDateCol.setCellValueFactory(new PropertyValueFactory<Album,Date>("earliestDate"));
         latestDateCol.setCellValueFactory(new PropertyValueFactory<Album,Date>("latestDate"));
-
         tableView.setItems(albumList);
+        tableView.getSelectionModel().select(0);
     }
 
     public void openAlbum(ActionEvent e) throws IOException { 
@@ -103,11 +103,11 @@ public class UserAlbumsController {
     }
     
     private boolean selectedAlbum(int selectedIndex) {
-        if(selectedIndex == -1) {
+       /* if(selectedIndex == -1) {
             Alert alert = new Alert(AlertType.ERROR, "You must select an album!");
             alert.showAndWait();
             return false;
-        }
+        }*/
         return true;
     }
     
