@@ -40,10 +40,7 @@
                      <children>
                         <VBox prefHeight="341.0" prefWidth="282.0">
                            <children>
-                              <ImageView fitHeight="179.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@blank%20photo.jpg" />
-                                 </image>
+                              <ImageView fx:id="displayImage" fitHeight="179.0" fitWidth="314.0" pickOnBounds="true" preserveRatio="true">
                               </ImageView>
                               <Label fx:id="captionLbl" prefHeight="17.0" prefWidth="255.0" text="Caption" />
                               <Label fx:id="dateLbl" text="Date: " />

@@ -25,6 +25,7 @@ public class Photo implements Serializable {
     public Photo(File path) {
     	this.path = path;
     	this.date = new Date(path.lastModified());
+    	this.caption = "no caption";
     }
     
     private void initDate(Image img) {
