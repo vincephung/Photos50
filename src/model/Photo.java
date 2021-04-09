@@ -8,7 +8,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import app.PhotosApp;
-import javafx.scene.image.Image;
 
 public class Photo implements Serializable {
     /**
@@ -24,16 +23,16 @@ public class Photo implements Serializable {
     
     public Photo(File path) {
     	this.path = path;
-    	this.date = new Date(path.lastModified());
+    	//this.date = new Date(path.lastModified());
+    	this.date = initDate(path);
     	this.caption = "no caption";
     }
     
-    private void initDate(Image img) {
-        File imgFile = new File(img.getUrl());
+    private Date initDate(File filePath) {
         cal = Calendar.getInstance();
-        cal.setTimeInMillis(imgFile.lastModified());
+        cal.setTimeInMillis(filePath.lastModified());
         cal.set(Calendar.MILLISECOND,0);
-        date = cal.getTime();
+        return cal.getTime();
     }
     
     public String getCaption() {

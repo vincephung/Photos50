@@ -17,7 +17,7 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <ImageView fx:id="img" fitHeight="339.0" fitWidth="464.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView" fitHeight="217.0" fitWidth="395.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@blank%20photo.jpg" />
                </image>

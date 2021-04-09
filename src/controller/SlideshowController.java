@@ -83,6 +83,7 @@ public class SlideshowController {
         InputStream stream = new FileInputStream(filePath);
         Image image = new Image(stream);
         imageView.setImage(image);
+        imageView.setPreserveRatio(true);
         captionLbl.setText(currentPhoto.getCaption());
     }
 
