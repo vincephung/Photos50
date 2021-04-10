@@ -16,11 +16,15 @@ public class User implements Serializable {
     private ArrayList<Photo> photos;
     private ArrayList<Album> albums;
     private ArrayList<User> allUsers = PhotosApp.getAllUsers();
+    private ArrayList<String> tagPresets;
 
     public User(String username) {
         this.username = username;
         photos = new ArrayList<Photo>();
         albums = new ArrayList<Album>();
+        tagPresets = new ArrayList<String>();
+        tagPresets.add("person");
+        tagPresets.add("location");
     }
 
     public String getUsername() {
@@ -49,6 +53,10 @@ public class User implements Serializable {
 
     public void openAlbum() {
 
+    }
+    
+    public ArrayList<String> getPresets(){
+    	return tagPresets;
     }
 
     public void renameAlbum(Album album, String albumName) throws IOException {

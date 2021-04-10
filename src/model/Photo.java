@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 import app.PhotosApp;
 
@@ -20,6 +21,7 @@ public class Photo implements Serializable {
     private File path;
     private Calendar cal;
     private ArrayList<User> allUsers = PhotosApp.getAllUsers();
+    Map<String, String> tagMap;
     
     public Photo(File path) {
     	this.path = path;
@@ -27,6 +29,9 @@ public class Photo implements Serializable {
     	this.date = initDate(path);
     	this.caption = "no caption";
     	this.tags = new ArrayList<Tag>();
+    	ArrayList<String> values = new ArrayList<String>();
+    	values.add("test value");
+    	this.tags.add(new Tag("Test Tag", "test"));
     }
     
     private Date initDate(File filePath) {

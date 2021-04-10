@@ -9,27 +9,23 @@ public class Tag implements Serializable{
      */
     private static final long serialVersionUID = 1L;
     private String name;
-    private ArrayList<String> values;
+    private String value;
     
-    public Tag(String name, ArrayList<String> values) {
+    public Tag(String name, String value) {
         this.name = name;
-        this.values = values;
+        this.value = value;
     }
     
     public String getName() {
         return this.name;
     }
     
-    public ArrayList<String> getValues() {
-        return this.values;
+    public String getValue() {
+        return this.value;
     }
     
     @Override
     public String toString() {
-    	String result = name + ":";
-    	for(String temp: values) {
-    		result += (" " + temp);
-    	}
-    	return result;
+    	return name + ": " + value;
     }
 }

@@ -16,14 +16,19 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -208,6 +213,41 @@ public class InsideAlbumController {
     }
     
     public void addTag(ActionEvent e) throws IOException {
+    	Dialog<Tag> dialog = new Dialog<>();
+    	dialog.setTitle("Add Tag");
+    	dialog.setHeaderText("This is a custom dialog. Enter info and \n" +
+    	    "press Okay (or click title bar 'X' for cancel).");
+    	dialog.setResizable(true);
+    	 
+    	Label label1 = new Label("Tag Names: ");
+    	Label label2 = new Label("Tag Value: ");
+    	ChoiceBox dropDown = new ChoiceBox(FXCollections.observableArrayList(currentUser.getPresets()));
+    	TextField text2 = new TextField();
+    	         
+    	GridPane grid = new GridPane();
+    	grid.add(label1, 1, 1);
+    	grid.add(dropDown, 2, 1);
+    	grid.add(label2, 1, 2);
+    	grid.add(text2, 2, 2);
+    	dialog.getDialogPane().setContent(grid);
+    	         
+    	ButtonType buttonTypeOk = new ButtonType("Okay", ButtonData.OK_DONE);
+    	dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
+    	 
+    	/*dialog.setResultConverter(new Callback<ButtonType, Tag>() {
+    	    @Override
+    	    public PhoneBook call(ButtonType b) {
+    	 
+    	        if (b == buttonTypeOk) {
+    	 
+    	            return new PhoneBook(text1.getText(), text2.getText());
+    	        }
+    	 
+    	        return null;
+    	    }
+    	});*/
+    	         
+    	Optional<Tag> result = dialog.showAndWait();
 
     }
     
