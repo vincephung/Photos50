@@ -49,7 +49,7 @@
                                     <Label prefHeight="17.0" prefWidth="70.0" text="Tags: " />
                                     <ScrollPane prefHeight="200.0" prefWidth="200.0">
                                       <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="128.0" prefWidth="198.0" />
+                                        <ListView fx:id="tagsList" minHeight="0.0" minWidth="0.0" prefHeight="128.0" prefWidth="198.0" />
                                       </content>
                                     </ScrollPane>
                                  </children>
@@ -65,7 +65,8 @@
                         </HBox>
                         <HBox alignment="TOP_CENTER" prefHeight="24.0" prefWidth="282.0" spacing="10.0">
                            <children>
-                              <Button fx:id="copyMoveBtn" mnemonicParsing="false" onAction="#copyMovePhoto" text="Copy or Move Photo" />
+                              <Button fx:id="copyBtn" mnemonicParsing="false" onAction="#copyPhoto" text="Copy Photo" />
+                              <Button fx:id="moveBtn" mnemonicParsing="false" onAction="#movePhoto" text="Move Photo" />
                            </children>
                         </HBox>
                      </children>

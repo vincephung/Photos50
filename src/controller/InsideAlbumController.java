@@ -17,9 +17,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Alert.AlertType;
@@ -27,6 +29,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Album;
 import model.Photo;
+import model.Tag;
 import model.User;
 
 public class InsideAlbumController {
@@ -40,13 +43,16 @@ public class InsideAlbumController {
     @FXML Button editCaptionBtn;
     @FXML Button deleteTagBtn;
     @FXML Button addTagBtn;
-    @FXML Button copyMoveBtn;
+    @FXML Button copyBtn;
+    @FXML Button moveBtn;
     @FXML ListView<Photo> listView;
     @FXML ImageView displayImage;
+    @FXML ListView<Tag> tagsList;
     
     private User currentUser = PhotosApp.getCurrentUser();
     private Album selectedAlbum;
     private ObservableList<Photo> obsList;
+    private ObservableList<Tag> obsTagList;
     private Photo selectedPhoto;
     
     /*
@@ -61,6 +67,15 @@ public class InsideAlbumController {
         selectedAlbum = album;
         albumNameLbl.setText(selectedAlbum.getAlbumName());
         this.initList();
+    }
+    
+   /*
+    * method that initializes the tag 
+    */
+    private void initTagList() {
+    	obsTagList = FXCollections.observableArrayList(selectedPhoto.getTags());
+    	tagsList.setItems(obsTagList);
+    	tagsList.getSelectionModel().selectFirst();
     }
     
    /*
@@ -94,6 +109,7 @@ public class InsideAlbumController {
                     			displayImage.setImage(new Image(selectedPhoto.getPath().toURI().toString()));
                     			captionLbl.setText(selectedPhoto.getCaption());
                     			dateLbl.setText(selectedPhoto.getDate().toGMTString());
+                    			initTagList();
                     		}
                     		else {
                     			displayImage.setImage(null);
@@ -167,6 +183,23 @@ public class InsideAlbumController {
     }
     
     public void editCaption(ActionEvent e) throws IOException {
+        TextInputDialog text = new TextInputDialog();
+        text.setTitle("Edit Caption");
+        text.setHeaderText("Input Caption");
+        text.setContentText(
+                "Please enter desired caption: ");
+        text.getEditor().setText(selectedPhoto.getCaption());
+        Optional<String> result = text.showAndWait();
+        result.ifPresent(temp -> {
+        	try {
+				selectedPhoto.changeCaption(temp);
+				this.initList();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        });
 
     }
     
@@ -178,12 +211,46 @@ public class InsideAlbumController {
 
     }
     
-    public void copyMovePhoto(ActionEvent e) throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/CopyMovePhoto.fxml"));
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(loader.load()));
-        stage.show();
+    public void copyPhoto(ActionEvent e) throws IOException {
+        ChoiceDialog<Album> choice = new ChoiceDialog<Album>(selectedAlbum, currentUser.getAlbums());
+        choice.setTitle("Copy Photo");
+        choice.setHeaderText("Destination Album");
+        choice.setContentText(
+                "Please choose album to copy to: ");
+        Optional<Album> result = choice.showAndWait();
+        result.ifPresent(temp -> {
+        	try {
+				temp.addPhoto(selectedPhoto);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        });
+    }
+    
+    /*
+     * method that handles moving a photo to a different album
+     */
+    public void movePhoto(ActionEvent e) throws IOException {
+        ChoiceDialog<Album> choice = new ChoiceDialog<Album>(selectedAlbum, currentUser.getAlbums());
+        choice.setTitle("Move Photo");
+        choice.setHeaderText("Destination Album");
+        choice.setContentText(
+                "Please choose album to move to: ");
+        Optional<Album> result = choice.showAndWait();
+        result.ifPresent(temp -> {
+        	try {
+				temp.addPhoto(selectedPhoto);
+				selectedAlbum.removePhoto(selectedPhoto);
+				obsList.remove(selectedPhoto);
+				listView.getSelectionModel().selectFirst();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+        	
+        });
     }
     
 }

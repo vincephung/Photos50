@@ -23,4 +23,13 @@ public class Tag implements Serializable{
     public ArrayList<String> getValues() {
         return this.values;
     }
+    
+    @Override
+    public String toString() {
+    	String result = name + ":";
+    	for(String temp: values) {
+    		result += (" " + temp);
+    	}
+    	return result;
+    }
 }
