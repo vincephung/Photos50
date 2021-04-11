@@ -26,6 +26,15 @@ public class Album implements Serializable{
         latestDate = null;
     }
     
+    /*
+     * constructor that creates an album containing the given arraylist of photos
+     */
+    public Album(String albumName, ArrayList<Photo> photos) {
+    	this.photos = photos;
+    	this.albumName = albumName;
+    	setEarliestDate();
+    	setLatestDate();
+    }
     
     public int getNumPhotos() {
         return this.photos.size();
