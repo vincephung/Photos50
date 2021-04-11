@@ -3,6 +3,8 @@ package controller;
 import java.io.IOException;
 
 import app.PhotosApp;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +16,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.Photo;
+import model.Tag;
 import model.User;
 
 public class SearchController {
@@ -28,14 +32,16 @@ public class SearchController {
     @FXML TextField secondTag;
     @FXML RadioButton andBtn;
     @FXML RadioButton orBtn;
-    @FXML ListView searchResults;
-    @FXML ListView tagList;
+    @FXML ListView<Photo> searchResults;
+    @FXML ListView<String> tagList;
     
 
     User currentUser = PhotosApp.getCurrentUser();
-
+    private ObservableList<String> obsTagList;
+    
     public void initialize() {
-
+    	obsTagList = FXCollections.observableArrayList(currentUser.getPresets());
+    	tagList.setItems(obsTagList);
     }
 
     public void saveAlbum(ActionEvent e) throws IOException {
@@ -43,7 +49,7 @@ public class SearchController {
     }
 
     public void search(ActionEvent e) throws IOException {
-
+    	
     }
 
     public void cancel(ActionEvent e) throws IOException {

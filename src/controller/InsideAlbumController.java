@@ -32,6 +32,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import model.Album;
 import model.Photo;
 import model.Tag;
@@ -208,47 +209,115 @@ public class InsideAlbumController {
 
     }
     
+    /*
+     * method that deletes the currently selected tag in list
+     */
     public void deleteTag(ActionEvent e) throws IOException {
-
+    	Tag selected = tagsList.getSelectionModel().getSelectedItem();
+    	selectedPhoto.deleteTag(selected);
+    	obsTagList.remove(selected);
+    	tagsList.getSelectionModel().selectFirst();
     }
     
     public void addTag(ActionEvent e) throws IOException {
     	Dialog<Tag> dialog = new Dialog<>();
     	dialog.setTitle("Add Tag");
-    	dialog.setHeaderText("This is a custom dialog. Enter info and \n" +
-    	    "press Okay (or click title bar 'X' for cancel).");
+    	dialog.setHeaderText("Create a tag using an existing tag type or create a tag using a new tag type.");
     	dialog.setResizable(true);
     	 
-    	Label label1 = new Label("Tag Names: ");
-    	Label label2 = new Label("Tag Value: ");
-    	ChoiceBox dropDown = new ChoiceBox(FXCollections.observableArrayList(currentUser.getPresets()));
-    	TextField text2 = new TextField();
+    	Label presetLbl = new Label("Existing Tag Type: ");
+    	Label valueLbl = new Label("Tag Value: ");
+    	Label newLbl = new Label("New Tag Type: ");
+    	Label value2Lbl = new Label("Tag Value: ");
+    	Label orLbl = new Label("OR");
+    	ChoiceBox<String> dropDown = new ChoiceBox<String>(FXCollections.observableArrayList(currentUser.getPresets()));
+    	TextField presetTxt = new TextField();
+    	TextField typeTxt = new TextField();
+    	TextField valueTxt = new TextField();
     	         
     	GridPane grid = new GridPane();
-    	grid.add(label1, 1, 1);
+    	grid.add(presetLbl, 1, 1);
     	grid.add(dropDown, 2, 1);
-    	grid.add(label2, 1, 2);
-    	grid.add(text2, 2, 2);
+    	grid.add(valueLbl, 1, 2);
+    	grid.add(presetTxt, 2, 2);
+    	grid.add(orLbl, 2, 4);
+    	grid.add(newLbl, 1, 6);
+    	grid.add(typeTxt, 2, 6);
+    	grid.add(value2Lbl, 1, 7);
+    	grid.add(valueTxt, 2, 7);
     	dialog.getDialogPane().setContent(grid);
     	         
-    	ButtonType buttonTypeOk = new ButtonType("Okay", ButtonData.OK_DONE);
+    	ButtonType buttonTypeOk = new ButtonType("Create Tag", ButtonData.OK_DONE);
+    	ButtonType buttonTypeCancel = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
     	dialog.getDialogPane().getButtonTypes().add(buttonTypeOk);
-    	 
-    	/*dialog.setResultConverter(new Callback<ButtonType, Tag>() {
+    	dialog.getDialogPane().getButtonTypes().add(buttonTypeCancel);
+    	
+    	dialog.setResultConverter(new Callback<ButtonType, Tag>() {
     	    @Override
-    	    public PhoneBook call(ButtonType b) {
+    	    public Tag call(ButtonType b) {
     	 
     	        if (b == buttonTypeOk) {
     	 
-    	            return new PhoneBook(text1.getText(), text2.getText());
+    	            //check to see if using existing tag type or new tagtype
+    	        	if(!dropDown.getSelectionModel().isEmpty() && !presetTxt.getText().isEmpty() && typeTxt.getText().isEmpty() && valueTxt.getText().isEmpty()) {
+    	        		Tag temp = new Tag(dropDown.getValue(), presetTxt.getText());
+    	        		try {
+							if(selectedPhoto.addTag(temp)) {
+								obsTagList.add(temp);
+								tagsList.getSelectionModel().select(temp);
+							}
+							else {
+								Alert alert = new Alert(AlertType.ERROR);
+								alert.setTitle("Error");
+								alert.setHeaderText("Duplicate Tag");
+								alert.setContentText(
+				                    "The tag you've tried to create already exists. Please try again.");
+								alert.showAndWait();
+							}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+    	        	}
+    	        	else if(dropDown.getSelectionModel().isEmpty() && presetTxt.getText().isEmpty() && !typeTxt.getText().isEmpty() && !valueTxt.getText().isEmpty()) {
+    	        		Tag temp = new Tag(typeTxt.getText(), valueTxt.getText());
+    	        		try {
+							if(selectedPhoto.addTag(temp)) {
+								obsTagList.add(temp);
+								tagsList.getSelectionModel().select(temp);
+								if(!currentUser.getPresets().contains(typeTxt.getText())){
+									currentUser.getPresets().add(typeTxt.getText());
+    							}
+    	
+							}
+							else {
+								Alert alert = new Alert(AlertType.ERROR);
+								alert.setTitle("Error");
+								alert.setHeaderText("Duplicate Tag");
+								alert.setContentText(
+				                    "The tag you've tried to create already exists. Please try again.");
+								alert.showAndWait();
+							}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+    	        	}
+    	        	else {
+						Alert alert = new Alert(AlertType.ERROR);
+						alert.setTitle("Error");
+						alert.setHeaderText("Illegal Input");
+						alert.setContentText(
+		                    "Choose an existing tag type and enter a tag value or enter a new tag type and a new tag value.");
+						alert.showAndWait();
+    	        	}
     	        }
     	 
     	        return null;
     	    }
-    	});*/
-    	         
-    	Optional<Tag> result = dialog.showAndWait();
+    	});
 
+    	 Optional<Tag> result = dialog.showAndWait();
     }
     
     public void copyPhoto(ActionEvent e) throws IOException {

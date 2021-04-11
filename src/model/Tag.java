@@ -28,4 +28,12 @@ public class Tag implements Serializable{
     public String toString() {
     	return name + ": " + value;
     }
+    
+    @Override
+    public boolean equals(Object o) {
+    	if(!(o instanceof Tag)) {
+    		return false;
+    	}
+    	return ((Tag) o).getValue().equals(value) && ((Tag) o).getName().equals(name);
+    }
 }

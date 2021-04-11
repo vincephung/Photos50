@@ -59,7 +59,7 @@
                         <HBox alignment="CENTER" prefHeight="45.0" prefWidth="282.0" spacing="10.0">
                            <children>
                               <Button fx:id="editCaptionBtn" mnemonicParsing="false" onAction="#editCaption" text="Edit Caption" />
-                              <Button fx:id="deleteTagBtn" mnemonicParsing="false" onAction="#deleteTag" prefHeight="24.0" prefWidth="71.0" text="Delete tag" />
+                              <Button fx:id="deleteTagBtn" mnemonicParsing="false" onAction="#deleteTag" prefHeight="24.0" prefWidth="80.0" text="Delete Tag" />
                               <Button fx:id="addTagBtn" mnemonicParsing="false" onAction="#addTag" text="Add Tag" />
                            </children>
                         </HBox>

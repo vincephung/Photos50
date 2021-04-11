@@ -21,7 +21,6 @@ public class Photo implements Serializable {
     private File path;
     private Calendar cal;
     private ArrayList<User> allUsers = PhotosApp.getAllUsers();
-    Map<String, String> tagMap;
     
     public Photo(File path) {
     	this.path = path;
@@ -58,19 +57,42 @@ public class Photo implements Serializable {
         return this.path;
     }
     
+    /*
+     * method that deletes specified tag from list
+     */
+    public void deleteTag(Tag tag) {
+    	tags.remove(tag);
+    }
+    
     public ArrayList<Tag> getTags() {
         return this.tags;
     }
     
-    public void addTag(Tag tag) throws IOException {
+    public boolean addTag(Tag tag) throws IOException {
+    	if(isDup(tag)) {
+    		return false;
+    	}
         tags.add(tag);
         PhotosApp.save(allUsers);
+        return true;
     }
     
     public void removeTag(Tag tag) throws IOException {
         //error check
         tags.remove(tag);
         PhotosApp.save(allUsers);
+    }
+    
+    /*
+     * method that returns true if temp is already a tag and false if temp isn't already a tag
+     */
+    private boolean isDup(Tag temp) {
+    	for(Tag t : tags) {
+    		if(t.equals(temp)) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
 }
