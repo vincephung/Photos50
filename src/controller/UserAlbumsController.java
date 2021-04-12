@@ -77,7 +77,7 @@ public class UserAlbumsController {
             return; // User did not select an album
         }
         selectedAlbum = albumList.get(selectedIndex);
-
+        
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/insideAlbum.fxml"));
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();

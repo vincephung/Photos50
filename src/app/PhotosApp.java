@@ -33,7 +33,7 @@ public class PhotosApp extends Application {
         loader.setLocation(getClass().getResource("/view/Login.fxml"));
         AnchorPane root = (AnchorPane) loader.load();
         Scene scene = new Scene(root);
-        primaryStage.setTitle("Login");
+        primaryStage.setTitle("Photos");
         primaryStage.setScene(scene);
         primaryStage.setResizable(false);
         primaryStage.show();
@@ -93,7 +93,7 @@ public class PhotosApp extends Application {
         return null; // error, no user found
     }
     
-    /*
+    
     private static void createStockUser() throws IOException {
         if(getUser("stock") == null) {
             Admin admin = new Admin();
@@ -110,7 +110,7 @@ public class PhotosApp extends Application {
             }
         }   
     }
-    */
+    
     
 
 }

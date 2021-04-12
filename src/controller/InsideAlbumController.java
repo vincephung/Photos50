@@ -114,7 +114,8 @@ public class InsideAlbumController {
                     		if(new_val != null) {
                     			displayImage.setImage(new Image(selectedPhoto.getPath().toURI().toString()));
                     			captionLbl.setText(selectedPhoto.getCaption());
-                    			dateLbl.setText(selectedPhoto.getDate().toGMTString());
+                    			//dateLbl.setText(selectedPhoto.getDate().toGMTString());
+                    			dateLbl.setText(selectedPhoto.getDate().toString());
                     			initTagList();
                     		}
                     		else {
@@ -140,23 +141,24 @@ public class InsideAlbumController {
     public void addPhoto(ActionEvent e) throws IOException {
     	//display file chooser dialog
         FileChooser dialog = new FileChooser();
+        FileChooser.ExtensionFilter imgTypes = new FileChooser.ExtensionFilter("IMG Files", "*.bmp", "*.gif","*.jpeg","*.png");
         dialog.setTitle("Add Photo");
-        dialog.getExtensionFilters().addAll(
+        dialog.getExtensionFilters().add(imgTypes);
+        /*dialog.getExtensionFilters().addAll(
         	     new FileChooser.ExtensionFilter("JPEG Files", "*.jpeg"), new FileChooser.ExtensionFilter("GIF Files", "*.gif"), new FileChooser.ExtensionFilter("BMP Files", "*.bmp"), new FileChooser.ExtensionFilter("PNG Files", "*.png") 
         	);
+    	*/
         File selectedFile = dialog.showOpenDialog((Stage) ((Node) e.getSource()).getScene().getWindow());
+        
+        if(selectedFile == null) {
+            return;
+        }
         
         //create new photo object and add to album
         Photo newPhoto = new Photo(selectedFile);
         selectedAlbum.addPhoto(newPhoto);
         obsList.add(newPhoto);
         listView.getSelectionModel().select(newPhoto);
-		
-        /*FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/view/AddPhoto.fxml"));
-        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(loader.load()));
-        stage.show();*/
     }
     
     /*

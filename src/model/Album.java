@@ -76,10 +76,19 @@ public class Album implements Serializable{
     }
     
     public void setEarliestDate() {
+        //no photos in the album
+        if(photos.size() == 0) {
+            earliestDate = null;
+            return;
+        }
+        
+        //Initialize date
     	if(earliestDate == null) {
     		earliestDate = photos.get(0).getDate();
     		return;
     	}
+    	
+    	earliestDate = photos.get(0).getDate();
         for(int i = 0; i < photos.size();i++) {
             Date curDate = photos.get(i).getDate();
             if(curDate.compareTo(earliestDate) < 0) {
@@ -89,10 +98,19 @@ public class Album implements Serializable{
     }
     
     public void setLatestDate() {
-    	if(latestDate == null) {
-    		latestDate = photos.get(0).getDate();
-    		return;
+    	//no photos in the album
+    	if(photos.size() == 0) {
+    	    latestDate = null;
+    	    return;
     	}
+    	
+        //Initialize date
+        if(latestDate == null) {
+            latestDate = photos.get(0).getDate();
+            return;
+        }
+        
+    	latestDate = photos.get(0).getDate();   	
         for(int i = 0; i < photos.size();i++) {
             Date curDate = photos.get(i).getDate();
             if(curDate.compareTo(latestDate) > 0) {
