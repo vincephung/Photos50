@@ -16,7 +16,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
@@ -24,6 +26,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -76,7 +79,18 @@ public class SearchController {
         Optional<String> result = text.showAndWait();
         result.ifPresent(temp -> {
         	try {
-				currentUser.createAlbum(temp, this.result);
+        		if(currentUser.duplicateAlbum(result.get())) {
+    				Alert alert = new Alert(AlertType.ERROR);
+    				alert.setTitle("Error");
+    				alert.setHeaderText("Duplicate Album Name");
+    				alert.setContentText(
+                        "An album with this name already exists. Please try again.");
+    				alert.showAndWait();
+        		}
+        		else {
+        			currentUser.createAlbum(temp, this.result);
+        		}
+        		
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -89,7 +103,7 @@ public class SearchController {
      */
     public void search(ActionEvent e) throws IOException {
     	//check for dates first
-    	if(afterDate.getValue() != null && beforeDate.getValue() != null) {
+    	if(afterDate.getValue() != null && beforeDate.getValue() != null && firstTag.getText().isEmpty() && secondTag.getText().isEmpty() && !orBtn.isPressed() && !andBtn.isPressed()) {
     		result = currentUser.searchByDate(Date.from(afterDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(beforeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
     		obsResultList = FXCollections.observableArrayList(result);
     		
@@ -98,10 +112,39 @@ public class SearchController {
     		//extract data from first tag;
     		int index; 
     		index = firstTag.getText().indexOf('=');
+    		if(index == -1) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setTitle("Error");
+				alert.setHeaderText("Invalid Tag Input");
+				alert.setContentText(
+                    "All tag type and value pairs should be typed as 'type=value'. Please try again.");
+				alert.showAndWait();
+				return;
+    		}
     		Tag tag1 = new Tag(firstTag.getText().substring(0, index), firstTag.getText().substring(index+1));
     		//check to see if there's a second tag
     		if(!secondTag.getText().isEmpty()) {
+    			if(!orBtn.isPressed() && !andBtn.isPressed()) {
+    	    		if(index == -1) {
+    					Alert alert = new Alert(AlertType.ERROR);
+    					alert.setTitle("Error");
+    					alert.setHeaderText("No Combination Selected");
+    					alert.setContentText(
+    	                    "And or Or must be selected when searching for two tags. Please try again.");
+    					alert.showAndWait();
+    					return;
+    	    		}
+    			}
 	    		index = secondTag.getText().indexOf('=');
+	    		if(index == -1) {
+					Alert alert = new Alert(AlertType.ERROR);
+					alert.setTitle("Error");
+					alert.setHeaderText("Invalid Tag Input");
+					alert.setContentText(
+	                    "All tag type and value pairs should be typed as 'type=value'. Please try again.");
+					alert.showAndWait();
+					return;
+	    		}
 	    		Tag tag2 = new Tag(secondTag.getText().substring(0, index), secondTag.getText().substring(index+1));
     			if(andBtn.isSelected()) {
     				result = currentUser.searchByTag(tag1, tag2, "and");
@@ -117,6 +160,14 @@ public class SearchController {
     			result = currentUser.searchByTag(tag1);
     			obsResultList = FXCollections.observableArrayList(result);
     		}
+    	}
+    	else {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setTitle("Error");
+			alert.setHeaderText("Invalid Search Criteria");
+			alert.setContentText(
+                "Search by a date range or a combination of one or two tags but NOT BOTH. Please try again.");
+			alert.showAndWait();
     	}
         searchResults.setItems(obsResultList);
         searchResults.setCellFactory(listView -> new ListCell<Photo>() {
@@ -148,7 +199,7 @@ public class SearchController {
     	secondTag.clear();
     	andBtn.setSelected(false);
     	orBtn.setSelected(false);
-    	result.clear();
+    	if(result != null) result.clear();
     	
     }
     

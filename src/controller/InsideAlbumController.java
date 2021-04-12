@@ -142,7 +142,7 @@ public class InsideAlbumController {
         FileChooser dialog = new FileChooser();
         dialog.setTitle("Add Photo");
         dialog.getExtensionFilters().addAll(
-        	     new FileChooser.ExtensionFilter("JPEG Files", "*.jpeg")
+        	     new FileChooser.ExtensionFilter("JPEG Files", "*.jpeg"), new FileChooser.ExtensionFilter("GIF Files", "*.gif"), new FileChooser.ExtensionFilter("BMP Files", "*.bmp"), new FileChooser.ExtensionFilter("PNG Files", "*.png") 
         	);
         File selectedFile = dialog.showOpenDialog((Stage) ((Node) e.getSource()).getScene().getWindow());
         

@@ -41,8 +41,9 @@ public class User implements Serializable {
     }
 
     public void createAlbum(String albumName) throws IOException {
-        albums.add(new Album(albumName));
-        PhotosApp.save(allUsers);
+    	albums.add(new Album(albumName));
+    	PhotosApp.save(allUsers);
+
     }
 
     public void createAlbum(String albumName, ArrayList<Photo> photos) throws IOException {
@@ -152,6 +153,15 @@ public class User implements Serializable {
 
     public String toString() {
         return this.username;
+    }
+    
+    public boolean duplicateAlbum(String name) {
+    	for(Album a: albums) {
+    		if(name.equals(a.getAlbumName())) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
 
 }
