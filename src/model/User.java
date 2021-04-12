@@ -3,22 +3,47 @@ package model;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 
-import app.PhotosApp;
+import app.Photos;
 
+/**
+ * The User class is a model for users. A user contains a username, photos and albums.
+ * 
+ * @author Vincent Phung
+ * @author William McFarland
+ *
+ */
 public class User implements Serializable {
     /**
-     * 
+     * Eclipse generated default ID used for serialization.
      */
     private static final long serialVersionUID = 1L;
+    /**
+     * Username of the user.
+     */
     private String username;
+    /**
+     * List of the user's photos.
+     */
     private ArrayList<Photo> photos;
+    /**
+     * List of the user's albums.
+     */
     private ArrayList<Album> albums;
-    private ArrayList<User> allUsers = PhotosApp.getAllUsers();
+    /**
+     * List of all users in the application.
+     */
+    private ArrayList<User> allUsers = Photos.getAllUsers();
+    /**
+     * List of the user's tag presets.
+     */
     private ArrayList<String> tagPresets;
 
+    /**
+     * Constructor to create a new user.
+     * @param username Username of the user.
+     */
     public User(String username) {
         this.username = username;
         photos = new ArrayList<Photo>();
@@ -28,41 +53,68 @@ public class User implements Serializable {
         tagPresets.add("location");
     }
 
+    /**
+     * Gets the username of the user.
+     * @return Username of the user.
+     */
     public String getUsername() {
         return this.username;
     }
 
+    /**
+     * Gets the user's list of photos.
+     * @return User's list of photos.
+     */
     public ArrayList<Photo> getPhotos() {
         return this.photos;
     }
 
+    /**
+     * Gets the user's list of albums.
+     * @return User's list of albums.
+     */
     public ArrayList<Album> getAlbums() {
         return this.albums;
     }
 
+    /**
+     * Create a new album.
+     * @param albumName Name of the album.
+     * @throws IOException Exception if the creation fails.
+     */
     public void createAlbum(String albumName) throws IOException {
     	albums.add(new Album(albumName));
-    	PhotosApp.save(allUsers);
+    	Photos.save(allUsers);
 
     }
 
+    /**
+     * Create a new album.
+     * @param albumName Name of the new album.
+     * @param photos List of photos to be added to.
+     * @throws IOException Exception thrown if creation fails.
+     */
     public void createAlbum(String albumName, ArrayList<Photo> photos) throws IOException {
         albums.add(new Album(albumName, photos));
-        PhotosApp.save(allUsers);
+        Photos.save(allUsers);
     }
     
+    /**
+     * Deletes an album.
+     * @param album Album to be deleted.
+     * @throws IOException Exception thrown if delete fails.
+     */
     public void deleteAlbum(Album album) throws IOException {
-        // error checking needed if list is empty
-        // check if remove works correctly
         albums.remove(album);
-        PhotosApp.save(allUsers);
+        Photos.save(allUsers);
     }
 
-    public void openAlbum() {
-
-    }
-    /*
-     * method that searches for photos based on given tags
+    /**
+     * Method that searches for photos based on given tags
+     * @param tag1 First tag to search for.
+     * @param tag2 Second tag to search for.
+     * @param indicator Indicator to search for.
+     * @return List of photos based on tags.
      */
     public ArrayList<Photo> searchByTag(Tag tag1, Tag tag2, String indicator){
     	ArrayList<Photo> result = new ArrayList<Photo>();
@@ -109,6 +161,11 @@ public class User implements Serializable {
     	return result;
     }
     
+    /**
+     * Search for photos based on a single tag.
+     * @param tag Tag to search for.
+     * @return List of photos based on results.
+     */
     public ArrayList<Photo> searchByTag(Tag tag){
     	ArrayList<Photo> result = new ArrayList<Photo>();
 		for(Album a: albums) {
@@ -126,8 +183,11 @@ public class User implements Serializable {
 		return result;
     }
     
-    /*
-     * method that searches for photos based on a given date range
+    /**
+     * Method that searches for photos based on a given date range
+     * @param after Date to search after by.
+     * @param before Date to search before.
+     * @return List of photos.
      */
     public ArrayList<Photo> searchByDate(Date after, Date before){
     	ArrayList<Photo> results = new ArrayList<Photo>();
@@ -142,19 +202,37 @@ public class User implements Serializable {
     	return results;
     }
     
+    /**
+     * Gets the tag presets.
+     * @return Tag presets.
+     */
     public ArrayList<String> getPresets(){
     	return tagPresets;
     }
 
+    /**
+     * Renames the given album. 
+     * @param album Album to rename.
+     * @param albumName Name of the new album.
+     * @throws IOException Exception thrown if rename fails.
+     */
     public void renameAlbum(Album album, String albumName) throws IOException {
         album.setAlbumName(albumName);
-        PhotosApp.save(allUsers);
+        Photos.save(allUsers);
     }
 
+    /**
+     * Prints out the user's username.
+     */
     public String toString() {
         return this.username;
     }
     
+    /**
+     * Checks if the album name already exists.
+     * @param name Name of an album to check.
+     * @return False if the album does not already exist, true otherwise.
+     */
     public boolean duplicateAlbum(String name) {
     	for(Album a: albums) {
     		if(name.equals(a.getAlbumName())) {

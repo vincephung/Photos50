@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import app.PhotosApp;
+import app.Photos;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +21,15 @@ import model.Album;
 import model.Photo;
 import model.User;
 
+/**
+ * The SlideshowController class is responsible for handling user interactions
+ * for the scene Slideshow (Slideshow.fxml). This scene occurs when the user
+ * clicks start slideshow within the InsideAlbum scene.
+ * 
+ * @author Vincent Phung
+ * @author William McFarland
+ *
+ */
 public class SlideshowController {
     @FXML
     Button backBtn;
@@ -35,48 +44,76 @@ public class SlideshowController {
     @FXML
     ImageView imageView;
 
-    private User currentUser = PhotosApp.getCurrentUser();
+    /**
+     * The currently selected album.
+     */
     private Album selectedAlbum;
+    /**
+     * The current photo shown.
+     */
     private Photo currentPhoto;
-    private int index; //current index of photo in album Ex.. index (2/10)
-    
-    //initializes data when scene is first changed
+    /**
+     * Current index/position of photo in album Ex.. index (2/10)
+     */
+    private int index;
+
+    /**
+     * Initializes data when scene is first changed
+     * 
+     * @param album The currently selected album.
+     * @throws FileNotFoundException Exception thrown if displayPicture fails.
+     */
     public void initData(Album album) throws FileNotFoundException {
         selectedAlbum = album;
         albumNameLbl.setText(selectedAlbum.getAlbumName());
         index = 0;
-        //display first pic in album
+        // display first pic in album
         displayPicture();
 
     }
-    
+
+    /**
+     * Switches to the previous picture in the album.
+     * 
+     * @param e The previous button was clicked.
+     * @throws IOException Exception thrown if previous fails.
+     */
     public void previous(ActionEvent e) throws IOException {
-        //if album is on the first picture, go to last picture
-        if(index == 0) {
-            index = selectedAlbum.getNumPhotos()-1;
-        }else {
+        // if album is on the first picture, go to last picture
+        if (index == 0) {
+            index = selectedAlbum.getNumPhotos() - 1;
+        } else {
             index -= 1;
         }
         displayPicture();
     }
 
+    /**
+     * Switches to the next picture in the album.
+     * 
+     * @param e The next button was clicked.
+     * @throws IOException Exception thrown if next fails.
+     */
     public void next(ActionEvent e) throws IOException {
-        //if album is on the last picture, return back to first picture
-        if(index == selectedAlbum.getNumPhotos()-1) {
+        // if album is on the last picture, return back to first picture
+        if (index == selectedAlbum.getNumPhotos() - 1) {
             index = 0;
-        }else {
+        } else {
             index += 1;
         }
         displayPicture();
     }
 
-    // displays imageview picture
+    /**
+     * Displays a picture using the index variable.
+     * 
+     * @throws FileNotFoundException Exception thrown if image cannot be found.
+     */
     public void displayPicture() throws FileNotFoundException {
-        //if album is empty, display nothing
-        if(selectedAlbum.getNumPhotos() == 0) {
+        // if album is empty, display nothing
+        if (selectedAlbum.getNumPhotos() == 0) {
             return;
         }
-        
         currentPhoto = selectedAlbum.getPhotos().get(index);
         File imgFile = currentPhoto.getPath();
         String filePath = imgFile.getPath();
@@ -87,7 +124,12 @@ public class SlideshowController {
         captionLbl.setText(currentPhoto.getCaption());
     }
 
-    //return to inside Album scene
+    /**
+     * Return to inside Album scene
+     * 
+     * @param e The back button was selected.
+     * @throws IOException Exception thrown if scene fails to switch.
+     */
     public void back(ActionEvent e) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/insideAlbum.fxml"));

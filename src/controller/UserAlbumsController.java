@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Optional;
 
-import app.PhotosApp;
+import app.Photos;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -27,6 +27,15 @@ import javafx.stage.Stage;
 import model.Album;
 import model.User;
 
+/**
+ * The UserAlbumsController class is responsible for handling user interactions
+ * for the scene UserAlbums (UserAlbums.fxml). This scene occurs when the user
+ * logs in and is not an Admin.
+ * 
+ * @author Vincent Phung
+ * @author William McFarland
+ *
+ */
 public class UserAlbumsController {
     @FXML
     Label userTitleLbl;
@@ -53,11 +62,22 @@ public class UserAlbumsController {
     @FXML
     TableColumn<Album, Date> latestDateCol;
 
-    User currentUser = PhotosApp.getCurrentUser();
+    /**
+     * The currently logged in user.
+     */
+    User currentUser = Photos.getCurrentUser();
+    /**
+     * List of all albums that the user contains.
+     */
     ObservableList<Album> albumList;
+    /**
+     * The currently selected album.
+     */
     Album selectedAlbum;
 
-    // fill tableview with data from albumList
+    /**
+     * Fills the tableview with data from albumList
+     */
     public void initialize() {
         userTitleLbl.setText(currentUser.getUsername() + "'s Albums");
         albumList = FXCollections.observableArrayList(currentUser.getAlbums());
@@ -71,13 +91,19 @@ public class UserAlbumsController {
         tableView.getSelectionModel().select(0);
     }
 
+    /**
+     * Opens the currently selected album. Error is shown if no album is selected.
+     * 
+     * @param e The open album button was selected.
+     * @throws IOException Exception thrown if the album fails to open.
+     */
     public void openAlbum(ActionEvent e) throws IOException {
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
         if (!selectedAlbum(selectedIndex)) {
             return; // User did not select an album
         }
         selectedAlbum = albumList.get(selectedIndex);
-        
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/insideAlbum.fxml"));
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -90,6 +116,12 @@ public class UserAlbumsController {
         stage.show();
     }
 
+    /**
+     * Method to create a new album.
+     * 
+     * @param e The create album button was selected.
+     * @throws IOException Exception thrown if create album fails.
+     */
     public void createAlbum(ActionEvent e) throws IOException {
         Optional<String> result = createTextDialog("new");
         if (!result.isEmpty()) {
@@ -99,6 +131,12 @@ public class UserAlbumsController {
 
     }
 
+    /**
+     * Method to rename an album.
+     * 
+     * @param e The rename album button was selected.
+     * @throws IOException Exception thrown if rename album fails.
+     */
     public void renameAlbum(ActionEvent e) throws IOException {
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
         if (!selectedAlbum(selectedIndex)) {
@@ -114,9 +152,14 @@ public class UserAlbumsController {
         }
     }
 
-    // Returns true if user has selected an album
+    /**
+     * Returns true if user has selected an album.
+     * 
+     * @param selectedIndex The selected index of the album.
+     * @return True if user has selected an album, otherwise false.
+     */
     private boolean selectedAlbum(int selectedIndex) {
-        if(selectedIndex == -1) {
+        if (selectedIndex == -1) {
             Alert alert = new Alert(AlertType.ERROR, "You must select an album!");
             alert.setHeaderText("No Album Selected");
             alert.showAndWait();
@@ -125,7 +168,12 @@ public class UserAlbumsController {
         return true;
     }
 
-    // create text input dialog and returns user input
+    /**
+     * Creates a text input dialog and returns user input
+     * 
+     * @param type The option that the user chose (rename album / create album).
+     * @return The text that the user inputted inside of the dialog.
+     */
     private Optional<String> createTextDialog(String type) {
         TextInputDialog inputDialog = new TextInputDialog();
         inputDialog.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
@@ -154,14 +202,21 @@ public class UserAlbumsController {
         return inputDialog.showAndWait();
     }
 
-    // When a change occurs in the table, refresh the table to see changes
+    /**
+     * Refreshes and updates the tableview whenever the data changes.
+     */
     private void updateTable() {
         albumList = FXCollections.observableArrayList(currentUser.getAlbums());
         tableView.setItems(albumList);
         tableView.refresh();
     }
 
-    // check if album already exists in album list
+    /**
+     * Check if album already exists in album list
+     * 
+     * @param userInput Name of an album
+     * @return False if the given album does not already exist.
+     */
     private boolean duplicateAlbum(String userInput) {
         for (Album album : currentUser.getAlbums()) {
             if (album.getAlbumName().equals(userInput)) {
@@ -171,6 +226,12 @@ public class UserAlbumsController {
         return false;
     }
 
+    /**
+     * Method to handle deleting an album.
+     * 
+     * @param e The delete album button is selected.
+     * @throws IOException Exception thrown if the delete fails.
+     */
     public void deleteAlbum(ActionEvent e) throws IOException {
         int selectedIndex = tableView.getSelectionModel().getSelectedIndex();
         if (!selectedAlbum(selectedIndex)) {
@@ -190,6 +251,12 @@ public class UserAlbumsController {
         }
     }
 
+    /**
+     * Changes the scene to the search scene.
+     * 
+     * @param e The search button was clicked.
+     * @throws IOException Exception thrown if the scene fails to switch.
+     */
     public void search(ActionEvent e) throws IOException {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/SearchOptions.fxml"));
@@ -198,8 +265,14 @@ public class UserAlbumsController {
         stage.show();
     }
 
+    /**
+     * Logs the current user out and switches the scene to the login scene.
+     * 
+     * @param e The logout button was clicked.
+     * @throws IOException Exception thrown if the scene fails to switch.
+     */
     public void logout(ActionEvent e) throws IOException {
-        PhotosApp.setCurrentUser(null);
+        Photos.setCurrentUser(null);
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/view/Login.fxml"));
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
