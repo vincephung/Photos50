@@ -114,7 +114,7 @@ public class InsideAlbumController {
      * Sets the title of the album and initializes selectedAlbum with the album that
      * the user decided to open.
      * 
-     * @param album
+     * @param album Album to initialize.
      */
     public void initData(Album album) {
         selectedAlbum = album;
