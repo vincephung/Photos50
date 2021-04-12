@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -15,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import model.Admin;
+import model.Album;
+import model.Photo;
 import model.User;
 
 public class PhotosApp extends Application {
@@ -45,6 +48,7 @@ public class PhotosApp extends Application {
         
         launch(args);
     }
+    
 
     public static void save(ArrayList<User> userList) throws IOException {
         ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(storeDir + File.separator + storeFile));
@@ -88,5 +92,25 @@ public class PhotosApp extends Application {
         }
         return null; // error, no user found
     }
+    
+    /*
+    private static void createStockUser() throws IOException {
+        if(getUser("stock") == null) {
+            Admin admin = new Admin();
+            admin.createUser("stock");
+            User stock = getUser("stock");
+            stock.createAlbum("stock");
+            Album album = stock.getAlbums().get(0);
+            for(int i = 1; i <= 5; i++) {
+                File newFile = new File("data/stockPhotos/stock"+i+".jpeg");
+                System.out.println(newFile.getPath());
+                Photo photo = new Photo(newFile);
+                album.addPhoto(photo);
+                save(allUsers);
+            }
+        }   
+    }
+    */
+    
 
 }
