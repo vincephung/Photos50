@@ -45,6 +45,11 @@ public class User implements Serializable {
         PhotosApp.save(allUsers);
     }
 
+    public void createAlbum(String albumName, ArrayList<Photo> photos) throws IOException {
+        albums.add(new Album(albumName, photos));
+        PhotosApp.save(allUsers);
+    }
+    
     public void deleteAlbum(Album album) throws IOException {
         // error checking needed if list is empty
         // check if remove works correctly
@@ -103,6 +108,23 @@ public class User implements Serializable {
     	return result;
     }
     
+    public ArrayList<Photo> searchByTag(Tag tag){
+    	ArrayList<Photo> result = new ArrayList<Photo>();
+		for(Album a: albums) {
+			for(Photo p: a.getPhotos()) {
+				if(!result.contains(p)) {
+					for(Tag t: p.getTags()) {
+						if(t.equals(tag)) {
+							result.add(p);
+							break;
+						}
+					}
+				}
+			}
+		}
+		return result;
+    }
+    
     /*
      * method that searches for photos based on a given date range
      */
@@ -113,7 +135,6 @@ public class User implements Serializable {
     		for(Photo p : alb.getPhotos()) {
     			if(!results.contains(p) && p.getDate().after(after) && p.getDate().before(before)) {
     				results.add(p);
-    				System.out.println("here");
     			}
     		}
     	}

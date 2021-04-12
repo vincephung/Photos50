@@ -75,7 +75,12 @@ public class SearchController {
                 "Please enter the name of new album with the search results: ");
         Optional<String> result = text.showAndWait();
         result.ifPresent(temp -> {
-        	currentUser.getAlbums().add(new Album(temp, this.result));
+        	try {
+				currentUser.createAlbum(temp, this.result);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         });
     }
     
@@ -85,7 +90,8 @@ public class SearchController {
     public void search(ActionEvent e) throws IOException {
     	//check for dates first
     	if(afterDate.getValue() != null && beforeDate.getValue() != null) {
-    		obsResultList = FXCollections.observableArrayList(currentUser.searchByDate(Date.from(afterDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(afterDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant())));
+    		result = currentUser.searchByDate(Date.from(afterDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Date.from(beforeDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+    		obsResultList = FXCollections.observableArrayList(result);
     		
     	}
     	else if(afterDate.getValue() == null && beforeDate.getValue() == null && !firstTag.getText().isEmpty()) {
@@ -105,6 +111,11 @@ public class SearchController {
     				result = currentUser.searchByTag(tag1, tag2, "or");
     				obsResultList = FXCollections.observableArrayList(result);
     			}
+    		}
+    		//otherwise just search by first tag
+    		else {
+    			result = currentUser.searchByTag(tag1);
+    			obsResultList = FXCollections.observableArrayList(result);
     		}
     	}
         searchResults.setItems(obsResultList);
@@ -137,6 +148,8 @@ public class SearchController {
     	secondTag.clear();
     	andBtn.setSelected(false);
     	orBtn.setSelected(false);
+    	result.clear();
+    	
     }
     
     public void cancel(ActionEvent e) throws IOException {
