@@ -33,12 +33,12 @@ public class Photos extends Application {
     /**
      * String for the data directory
      */
-    public static final String storeDir = "data";
+    private static final String storeDir = "data";
     /**
      * String for where the serialization data is stored. Stores the data for all
      * users.
      */
-    public static final String storeFile = "users.dat";
+    private static final String storeFile = "users.dat";
     /**
      * Array list to hold all the users of the application.
      */
