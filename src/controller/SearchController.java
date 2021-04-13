@@ -158,7 +158,7 @@ public class SearchController {
             Tag tag1 = new Tag(firstTag.getText().substring(0, index), firstTag.getText().substring(index + 1));
             // check to see if there's a second tag
             if (!secondTag.getText().isEmpty()) {
-                if (!orBtn.isPressed() && !andBtn.isPressed()) {
+                if (!orBtn.isSelected() && !andBtn.isSelected()) {
                        Alert alert = new Alert(AlertType.ERROR);
                        alert.setTitle("Error");
                        alert.setHeaderText("No Combination Selected");
