@@ -120,7 +120,7 @@ public class SearchController {
                     alert.setContentText("An album with this name already exists. Please try again.");
                     alert.showAndWait();
                 } else {
-                    currentUser.createAlbum(temp, this.result);
+                    currentUser.createAlbum(temp, new ArrayList<Photo>(this.result)); //deep copy so clearing search results wont affect creation
                 }
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -235,8 +235,11 @@ public class SearchController {
         secondTag.clear();
         andBtn.setSelected(false);
         orBtn.setSelected(false);
-        if (result != null)
+        if (result != null) {
             result.clear();
+        }
+        searchResults.setItems(null);
+            
     }
 
     /**

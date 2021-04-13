@@ -1,5 +1,6 @@
 package model;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -186,12 +187,27 @@ public class Album implements Serializable {
     }
 
     /**
+     * Checks if the picture already exists in this album.
+     * 
+     * @param name Image file to check.
+     * @return False if the picture does not already exist, true otherwise.
+     */
+    public boolean duplicatePicture(File img) {
+        for (Photo photo : photos) {
+            if (img.equals(photo.getPath())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Prints out the album name.
      */
     public String toString() {
         return this.albumName;
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Album)) {
@@ -199,5 +215,5 @@ public class Album implements Serializable {
         }
         return ((Album) o).getAlbumName().equals(albumName);
     }
-    
+
 }

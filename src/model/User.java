@@ -68,7 +68,7 @@ public class User implements Serializable {
     public ArrayList<Photo> getPhotos() {
         return this.photos;
     }
-
+    
     /**
      * Gets the user's list of albums.
      * @return User's list of albums.

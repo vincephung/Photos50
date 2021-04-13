@@ -210,8 +210,36 @@ public class InsideAlbumController {
             return;
         }
 
+        if (selectedAlbum.duplicatePicture(selectedFile)) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Duplicate photo");
+            alert.setContentText("This picture already exists in this album.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Adding an existing photo to a different album is equivalent to copying, so
+        // create a reference of the already made photo in this new album.
+        Photo newPhoto = null;
+        boolean photoFound = false;
+        for (Album album : currentUser.getAlbums()) {
+            for (Photo photo : album.getPhotos()) {
+                if (photo.getPath().equals(selectedFile)) {
+                    newPhoto = photo;
+                    photoFound = true;
+                    break;
+                }
+            }
+            if (photoFound) {
+                break;
+            }
+        }
+
         // create new photo object and add to album
-        Photo newPhoto = new Photo(selectedFile);
+        if (newPhoto == null) {
+            newPhoto = new Photo(selectedFile);
+        }
         selectedAlbum.addPhoto(newPhoto);
         obsList.add(newPhoto);
         listView.getSelectionModel().select(newPhoto);
@@ -231,7 +259,7 @@ public class InsideAlbumController {
             selectedAlbum.removePhoto(listView.getSelectionModel().getSelectedItem());
             obsList.remove(listView.getSelectionModel().getSelectedItem());
             listView.getSelectionModel().selectFirst();
-            if(obsList.size() == 0) {
+            if (obsList.size() == 0) {
                 tagsList.getItems().clear();
             }
         } else {
@@ -357,7 +385,6 @@ public class InsideAlbumController {
                                 alert.showAndWait();
                             }
                         } catch (IOException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     } else if (dropDown.getSelectionModel().isEmpty() && presetTxt.getText().isEmpty()
@@ -380,7 +407,6 @@ public class InsideAlbumController {
                                 alert.showAndWait();
                             }
                         } catch (IOException e) {
-                            // TODO Auto-generated catch block
                             e.printStackTrace();
                         }
                     } else {
@@ -414,6 +440,14 @@ public class InsideAlbumController {
         Optional<Album> result = choice.showAndWait();
         result.ifPresent(temp -> {
             try {
+                if (temp == selectedAlbum || temp.duplicatePicture(selectedPhoto.getPath())) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Duplicate photo");
+                    alert.setContentText("Cannot have duplicates of the same picture in the same album.");
+                    alert.showAndWait();
+                    return;
+                }
                 temp.addPhoto(selectedPhoto);
             } catch (IOException e1) {
                 e1.printStackTrace();
@@ -435,19 +469,23 @@ public class InsideAlbumController {
         Optional<Album> result = choice.showAndWait();
         result.ifPresent(temp -> {
             try {
-                //moving to the same album does nothing
-                if(temp == selectedAlbum) {
+                if (temp == selectedAlbum || temp.duplicatePicture(selectedPhoto.getPath())) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Duplicate photo");
+                    alert.setContentText("Cannot have duplicates of the same picture in the same album");
+                    alert.showAndWait();
                     return;
                 }
                 temp.addPhoto(selectedPhoto);
                 selectedAlbum.removePhoto(selectedPhoto);
                 obsList.remove(selectedPhoto);
-                
+
                 listView.getSelectionModel().selectFirst();
-                if(obsList.size() == 0) {
+                if (obsList.size() == 0) {
                     tagsList.getItems().clear();
                 }
-                
+
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
