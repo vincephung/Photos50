@@ -151,7 +151,7 @@ public class Album implements Serializable {
     /**
      * Sets the earliest modification date of all photos in the album.
      */
-    public void setEarliestDate() {
+    private void setEarliestDate() {
         // no photos in the album
         if (photos.size() == 0) {
             earliestDate = null;
@@ -170,7 +170,7 @@ public class Album implements Serializable {
     /**
      * Sets the latest modification date of all photos in the album.
      */
-    public void setLatestDate() {
+    private void setLatestDate() {
         // no photos in the album
         if (photos.size() == 0) {
             latestDate = null;
