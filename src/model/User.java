@@ -141,20 +141,18 @@ public class User implements Serializable {
     					for(Tag t: p.getTags()) {
     						if(t.equals(tag1)) {
     							first = true;
-    							if(first && second) {
-    								result.add(p);
-    								break;
-    							}
     						}
     						if(t.equals(tag2)) {
     							second = true;
-    							if(first && second) {
-    								result.add(p);
-    								break;
-    							}
+    						}
+    						if(first && second) {
+    							result.add(p);
+    							break;
     						}
     					}
     				}
+    				first = false;
+    				second = false;
     			}
     		}
     	}
