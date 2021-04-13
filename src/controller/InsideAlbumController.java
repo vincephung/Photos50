@@ -289,7 +289,7 @@ public class InsideAlbumController {
      */
     public void deleteTag(ActionEvent e) throws IOException {
         Tag selected = tagsList.getSelectionModel().getSelectedItem();
-        selectedPhoto.deleteTag(selected);
+        selectedPhoto.removeTag(selected);
         obsTagList.remove(selected);
         tagsList.getSelectionModel().selectFirst();
 

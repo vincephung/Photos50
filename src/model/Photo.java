@@ -112,15 +112,6 @@ public class Photo implements Serializable {
     }
 
     /**
-     * Method that deletes specified tag from list
-     * 
-     * @param tag Tag to be deleted.
-     */
-    public void deleteTag(Tag tag) {
-        tags.remove(tag);
-    }
-
-    /**
      * Gets all of the tags of the photo.
      * 
      * @return List of tags that the photo contains.
@@ -152,7 +143,6 @@ public class Photo implements Serializable {
      * @throws IOException Exception thrown if the remove fails.
      */
     public void removeTag(Tag tag) throws IOException {
-        // error check
         tags.remove(tag);
         Photos.save(allUsers);
     }
