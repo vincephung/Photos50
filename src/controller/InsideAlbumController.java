@@ -316,11 +316,18 @@ public class InsideAlbumController {
      * @throws IOException Exception thrown if deleteTag failed.
      */
     public void deleteTag(ActionEvent e) throws IOException {
-        Tag selected = tagsList.getSelectionModel().getSelectedItem();
-        selectedPhoto.removeTag(selected);
-        obsTagList.remove(selected);
-        tagsList.getSelectionModel().selectFirst();
-
+        // dialog asking for confirmation
+        Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this tag?", ButtonType.YES,
+                ButtonType.NO);
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.YES) {
+            Tag selected = tagsList.getSelectionModel().getSelectedItem();
+            selectedPhoto.removeTag(selected);
+            obsTagList.remove(selected);
+            tagsList.getSelectionModel().selectFirst();
+        } else {
+            return;
+        }
     }
 
     /**
