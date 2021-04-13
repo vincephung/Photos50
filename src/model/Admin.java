@@ -46,4 +46,6 @@ public class Admin {
         allUsers.add(new User(username));
         Photos.save(allUsers);
     }
+    
+    
 }

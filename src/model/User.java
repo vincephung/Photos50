@@ -221,9 +221,7 @@ public class User implements Serializable {
         Photos.save(allUsers);
     }
 
-    /**
-     * Prints out the user's username.
-     */
+    @Override
     public String toString() {
         return this.username;
     }
@@ -240,6 +238,14 @@ public class User implements Serializable {
     		}
     	}
     	return false;
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof User)) {
+            return false;
+        }
+        return ((User) o).getUsername().equals(username);
     }
 
 }

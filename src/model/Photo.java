@@ -172,5 +172,15 @@ public class Photo implements Serializable {
         }
         return false;
     }
+    
+    
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Photo)) {
+            return false;
+        }
+        return ((Photo) o).getCaption().equals(caption) && ((Photo) o).getPath() == path;
+    }
+    
 
 }

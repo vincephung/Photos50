@@ -231,6 +231,9 @@ public class InsideAlbumController {
             selectedAlbum.removePhoto(listView.getSelectionModel().getSelectedItem());
             obsList.remove(listView.getSelectionModel().getSelectedItem());
             listView.getSelectionModel().selectFirst();
+            if(obsList.size() == 0) {
+                tagsList.getItems().clear();
+            }
         } else {
             return;
         }
@@ -289,6 +292,7 @@ public class InsideAlbumController {
         selectedPhoto.deleteTag(selected);
         obsTagList.remove(selected);
         tagsList.getSelectionModel().selectFirst();
+
     }
 
     /**
@@ -412,7 +416,6 @@ public class InsideAlbumController {
             try {
                 temp.addPhoto(selectedPhoto);
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
                 e1.printStackTrace();
             }
         });
@@ -432,10 +435,19 @@ public class InsideAlbumController {
         Optional<Album> result = choice.showAndWait();
         result.ifPresent(temp -> {
             try {
+                //moving to the same album does nothing
+                if(temp == selectedAlbum) {
+                    return;
+                }
                 temp.addPhoto(selectedPhoto);
                 selectedAlbum.removePhoto(selectedPhoto);
                 obsList.remove(selectedPhoto);
+                
                 listView.getSelectionModel().selectFirst();
+                if(obsList.size() == 0) {
+                    tagsList.getItems().clear();
+                }
+                
             } catch (IOException e1) {
                 e1.printStackTrace();
             }

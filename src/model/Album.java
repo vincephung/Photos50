@@ -157,12 +157,6 @@ public class Album implements Serializable {
             return;
         }
 
-        // Initialize date
-        if (earliestDate == null) {
-            earliestDate = photos.get(0).getDate();
-            return;
-        }
-
         earliestDate = photos.get(0).getDate();
         for (int i = 0; i < photos.size(); i++) {
             Date curDate = photos.get(i).getDate();
@@ -182,12 +176,6 @@ public class Album implements Serializable {
             return;
         }
 
-        // Initialize date
-        if (latestDate == null) {
-            latestDate = photos.get(0).getDate();
-            return;
-        }
-
         latestDate = photos.get(0).getDate();
         for (int i = 0; i < photos.size(); i++) {
             Date curDate = photos.get(i).getDate();
@@ -203,4 +191,13 @@ public class Album implements Serializable {
     public String toString() {
         return this.albumName;
     }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Album)) {
+            return false;
+        }
+        return ((Album) o).getAlbumName().equals(albumName);
+    }
+    
 }
