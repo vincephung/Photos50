@@ -12,8 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -114,6 +116,7 @@ public class SlideshowController {
         if (selectedAlbum.getNumPhotos() == 0) {
             return;
         }
+        try {
         currentPhoto = selectedAlbum.getPhotos().get(index);
         File imgFile = currentPhoto.getPath();
         String filePath = imgFile.getPath();
@@ -122,6 +125,15 @@ public class SlideshowController {
         imageView.setImage(image);
         imageView.setPreserveRatio(true);
         captionLbl.setText(currentPhoto.getCaption());
+        }
+        catch(Exception exc){
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Problem Opening Photo");
+            alert.setContentText(exc.getMessage());
+            alert.showAndWait();
+            return;
+        }
     }
 
     /**
