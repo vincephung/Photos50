@@ -159,15 +159,13 @@ public class SearchController {
             // check to see if there's a second tag
             if (!secondTag.getText().isEmpty()) {
                 if (!orBtn.isPressed() && !andBtn.isPressed()) {
-                    if (index == -1) {
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("No Combination Selected");
-                        alert.setContentText(
-                                "And or Or must be selected when searching for two tags. Please try again.");
-                        alert.showAndWait();
-                        return;
-                    }
+                       Alert alert = new Alert(AlertType.ERROR);
+                       alert.setTitle("Error");
+                       alert.setHeaderText("No Combination Selected");
+                       alert.setContentText(
+                               "And or Or must be selected when searching for two tags. Please try again.");
+                       alert.showAndWait();
+                       return;
                 }
                 index = secondTag.getText().indexOf('=');
                 if (index == -1) {
