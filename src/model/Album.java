@@ -189,7 +189,7 @@ public class Album implements Serializable {
     /**
      * Checks if the picture already exists in this album.
      * 
-     * @param name Image file to check.
+     * @param img Image file to check.
      * @return False if the picture does not already exist, true otherwise.
      */
     public boolean duplicatePicture(File img) {
