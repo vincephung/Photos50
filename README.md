@@ -1,29 +1,25 @@
-# README #
+# Photos50 #
 
-This README would normally document whatever steps are necessary to get your application up and running.
+Authors: Vincent Phung, William McFarland
 
-### What is this repository for? ###
+Converted this program to run for android here: https://github.com/vincephung/Android-Photos-App
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+### Description ###
+A single-user photo application that allows storage and management of photos in one or more albums.
 
-### How do I get set up? ###
+This project mainly focused on improving software development practices. 
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* MVC design pattern to organize code. 
+* GUI storyboard to design the UI.
+* UML class diagram to design the model classes and controllers.
+* Javadocs: The complete Javadoc HTML documentation for the project.
 
-### Contribution guidelines ###
+### Features ###
 
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+* Login
+* Serialization
+* Admin Subsystem
+* Create/Delete/Rename/Open Album
+* Add photo/caption/tag
+* Search photos
+* Copy/Move photo to another album.
